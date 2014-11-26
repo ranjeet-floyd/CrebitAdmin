@@ -39,6 +39,8 @@
             $("#hdnBtnId").val(id);
             var listatus = parseInt(ArrayId[2]);
             $("#hdbBtnLi").val(listatus);
+            var UserId = parseInt(ArrayId[3]);
+            $("#hdBtnUserId").val(UserId);
 
         }
     </script>
@@ -404,6 +406,7 @@
                         <asp:Button Text="Save changes" class="btn btn-primary" runat="server" ID="saveChangebtn" OnClick="btnInsert_ServerClick" />
                         <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                         <input id="hdbBtnLi" type="hidden" runat="server" />
+                        <input id="hdBtnUserId" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                     </div>
 
@@ -425,7 +428,7 @@
 
     </form>
 </body>
-<script>
+<%--<script>
     //Get Margin List
     function getStatus() {
         var cyberSession = $("#cyberSession").val();
@@ -476,5 +479,5 @@
             }
         });
     }
-</script>
+</script>--%>
 </html>

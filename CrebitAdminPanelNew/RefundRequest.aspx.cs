@@ -313,9 +313,15 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Text;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
+                int tbUserId = Int32.Parse(hdBtnUserId.Value);
+
                 Handler obj = new Handler();
                 obj.AddRefundTranCommentData(tblId, comment, tbstatus);
                 table_data.InnerHtml = getRefundRequestFilterData(0, "0");
+                if (tbstatus==9) {
+                
+                
+                }
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }
 
