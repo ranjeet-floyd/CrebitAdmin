@@ -177,8 +177,8 @@ namespace CrebitAdminPanelNew
 
                         }
 
-                        htmlStr += "<tr><td>" + Id + "</td><td>" + UserId + "</td><td>" + Service + "</td><td>" +
-                        Type + "</td><td>" + AccountNo + "</td><td>" + ReqDate + "</td><td>" + TransactionId +
+                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserId + "</td><td>" + Service + "</td><td>" + Amount + "</td><td>" +
+                        Type + "</td><td id='account_" + Id + "'>" + AccountNo + "</td><td>" + ReqDate + "</td><td>" + TransactionId +
                         "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "</div></td><td></tr>";
                     }
@@ -313,14 +313,20 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Text;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
-                int tbUserId = Int32.Parse(hdBtnUserId.Value);
-
+                string tbUserName = hdUserName.Value;
+                string tbAccountNo = hdaccountNo.Value;
                 Handler obj = new Handler();
                 obj.AddRefundTranCommentData(tblId, comment, tbstatus);
                 table_data.InnerHtml = getRefundRequestFilterData(0, "0");
-                if (tbstatus==9) {
-                
-                
+                 switch (tbstatus)
+                {
+                    case 4:  BL_SMS.SendSMS(tbUserName, "Request Reject");
+                    BL_SMS.SendSMS(tbAccountNo, "Request Reject"); break;
+
+                    case 9:  BL_SMS.SendSMS(tbUserName, "Money Refunded");
+                    BL_SMS.SendSMS(tbAccountNo, "Request Reject"); 
+                    break;
+                    
                 }
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }

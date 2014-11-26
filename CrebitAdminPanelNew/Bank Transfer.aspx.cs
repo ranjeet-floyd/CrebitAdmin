@@ -78,6 +78,7 @@ namespace CrebitAdminPanelNew
 
                         string Id = "" + item["Id"].ToString();
                         string UserName = "" + item["UserName"];
+                        string CusMobile = "" + item["CusMobile"];
                         string BankName = "" + item["BankName"];
                         string Account = "" + item["Account"];
                         string IFSC = "" + item["IFSC"];
@@ -221,7 +222,7 @@ namespace CrebitAdminPanelNew
                         }
 
 
-                        htmlStr += "<tr><td>" + Id + "</td><td>" + UserName + "	</td><td>" + BankName + "	</td><td>" + Account + "	</td><td>" + IFSC +
+                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserName + "</td><td id='CusMOb_" + Id + "'>" + CusMobile + "	</td><td>" + Account + "	</td><td>" + IFSC +
                             "	</td><td>" + Amount + "	</td><td>" + TransactionId +
                         "<td>" + BankTransId + "</td></td><td>" + ReqDate + "</td><td>" + Comments + "</td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
@@ -279,9 +280,25 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Value;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
+                string tbUserName = hdUserName.Value;
+                string tbCusMob = hdCumMob.Value;
                 Handler obj = new Handler();
                 obj.AddBankTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = GetBankTransFilterDetails(0, "0");
+                 switch (tbstatus)
+                {
+                    case 0:BL_SMS.SendSMS(tbUserName, "Failed");
+                    BL_SMS.SendSMS(tbCusMob, "Failed"); break;
+
+                    case 1:BL_SMS.SendSMS(tbUserName, "Success");
+                    BL_SMS.SendSMS(tbCusMob, "Success"); break;
+
+                    case 4:  BL_SMS.SendSMS(tbUserName, "Success");
+                    BL_SMS.SendSMS(tbCusMob, "Request Reject"); break;
+                                     
+                
+                
+                }
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }
         }

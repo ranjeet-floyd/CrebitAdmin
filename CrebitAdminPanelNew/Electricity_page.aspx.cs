@@ -223,8 +223,8 @@ namespace CrebitAdminPanelNew
 
                         }
 
-                        htmlStr += "<tr><td>" + Id + "</td><td>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +
-                            "</td><td>" + CusAcc + "</td><td>" + CusMob + "</td><td>" + DueDate + "</td><td>" + TransactionId +
+                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +
+                            "</td><td>" + CusAcc + "</td><td id='CusMOb_" + Id + "'>" + CusMob + "</td><td>" + DueDate + "</td><td>" + TransactionId +
                             "</td><td>" + ReqDate + "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
                         htmlStr += "<ul id='selectionToggle' class='dropdown-menu' role='menu'>" + optionHtml;
@@ -292,9 +292,28 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Text;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
+                string tbUserName = hdUserName.Value;
+                string tbCusMob = hdCumMob.Value;
                 Handler obj = new Handler();
                 obj.AddTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = getElectricityFilterData(0, "0");
+                switch (tbstatus)
+                {
+                    case 0:BL_SMS.SendSMS(tbUserName, "Failed");
+                        BL_SMS.SendSMS(tbCusMob, "Failed"); 
+                        break;
+
+                   case 1:BL_SMS.SendSMS(tbUserName, "Success");
+                   BL_SMS.SendSMS(tbCusMob, "Success"); break;
+
+                   case 4:  BL_SMS.SendSMS(tbUserName, "Success");
+                   BL_SMS.SendSMS(tbCusMob, "Request Reject"); break;
+                                    
+                
+                
+                }
+
+
 
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }

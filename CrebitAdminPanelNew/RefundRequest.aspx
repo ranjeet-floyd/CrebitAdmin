@@ -35,12 +35,14 @@
         function setModelHiddenValu(obj) {
             // $("selectionToggle").index(listItem)
             var ArrayId = obj.id.split('_');
-            var id = parseInt(ArrayId[1]);
-            $("#hdnBtnId").val(id);
+            var Id = parseInt(ArrayId[1]);
+            $("#hdnBtnId").val(Id);
             var listatus = parseInt(ArrayId[2]);
             $("#hdbBtnLi").val(listatus);
             var UserId = parseInt(ArrayId[3]);
             $("#hdBtnUserId").val(UserId);
+            $("#hdUserName").val($("#user_" + Id + "").text());
+            $("#hdaccountNo").val($("#account_" + Id + "").text());
 
         }
     </script>
@@ -365,6 +367,7 @@
                                 <th>Id</th>
                                 <th>UserID</th>
                                 <th>OperaterName</th>
+                                <th>Amount</th>
                                 <th>ServiceType</th>
                                 <th>AccountNo</th>
                                 <th>ReqDate</th>
@@ -407,6 +410,8 @@
                         <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                         <input id="hdbBtnLi" type="hidden" runat="server" />
                         <input id="hdBtnUserId" type="hidden" runat="server" />
+                        <input id="hdUserName" type="hidden" runat="server" />
+                        <input id="hdaccountNo" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                     </div>
 

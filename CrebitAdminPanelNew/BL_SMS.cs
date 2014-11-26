@@ -4,10 +4,10 @@ using System.Net;
 using System.Text;
 using System.IO;
 using System.Net;
-using System.Diagnostics; 
+using System.Diagnostics;
 
 namespace CrebitAdminPanelNew
-{  
+{
     public static class BL_SMS
     {
 
@@ -41,13 +41,14 @@ namespace CrebitAdminPanelNew
                 UTF8Encoding objUTF8 = new UTF8Encoding();
                 retVal = objUTF8.GetString(reqHTML);
                 if (retVal.Equals("Invalid template or template mismatch"))
-                    Logger.WriteLog(LogLevelL4N.ERROR, "SendSMS | Error : " + retVal);
+                { _isSuccess = false; }
+                //Logger.WriteLog(LogLevelL4N.ERROR, "SendSMS | Error : " + retVal);
                 _isSuccess = true;
             }
             catch (Exception ex)
             {
                 _isSuccess = false;
-                Logger.WriteLog(LogLevelL4N.ERROR, "SendSMS | Exception : " + ex.Message);
+                //Logger.WriteLog(LogLevelL4N.ERROR, "SendSMS | Exception : " + ex.Message);
             }
             return _isSuccess;
 

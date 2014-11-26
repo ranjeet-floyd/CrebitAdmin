@@ -33,11 +33,12 @@
         function setModelHiddenValu(obj) {
             // $("selectionToggle").index(listItem)
             var ArrayId = obj.id.split('_');
-            var id = parseInt(ArrayId[1]);
-            $("#hdnBtnId").val(id);
+            var Id = parseInt(ArrayId[1]);
+            $("#hdnBtnId").val(Id);
             var listatus = parseInt(ArrayId[2]);
             $("#hdbBtnLi").val(listatus);
-
+            $("#hdUserName").val($("#user_" + Id + "").text());
+            $("#hdCumMob").val($("#CusMOb_" + Id + "").text());
         }
     </script>
 
@@ -251,7 +252,7 @@
                             <tr>
                                 <th>Id</th>
                                 <th>UserId</th>
-                                <th>BankName</th>
+                                <th>CusMob</th>
                                 <th>AccountNo</th>
                                 <th>IFSC</th>
                                 <th>Amount</th>
@@ -318,6 +319,8 @@
                         <asp:Button Text="Save changes" class="btn btn-primary" runat="server" ID="saveChangebtn" OnClick="btnInsert_ServerClick" />
                         <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                         <input id="hdbBtnLi" type="hidden" runat="server" />
+                        <input id="hdUserName" type="hidden" runat="server" />
+                        <input id="hdCumMob" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                     </div>
 
