@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using db;
+using System.Threading.Tasks;
 namespace CrebitAdminPanelNew
 {
     public partial class RefundRequest : System.Web.UI.Page
@@ -313,25 +314,32 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Text;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
-                // Changes Made By Jhamman on 26th Nov 2014 
-                //Getting User Mobile number and Cutomer Mobile Number When Status Changed 
                 string tbUserName = hdUserName.Value;
                 string tbAccountNo = hdaccountNo.Value;
+                string cusAccNo = tbAccountNo;//string.Empty;//add from hidden field.
                 Handler obj = new Handler();
                 obj.AddRefundTranCommentData(tblId, comment, tbstatus);
                 table_data.InnerHtml = getRefundRequestFilterData(0, "0");
-                // Changes Made By Jhamman on 26th Nov 2014 
-                // Sending Message To User and Cutomer about  Status .
-                 switch (tbstatus)
+                //Ranjeet || 27-nov-14 ||Added SMS Message and Task.
+                switch (tbstatus)
                 {
-                    // BL_SMS Method Calling To sending Message.
-                    case 4:  BL_SMS.SendSMS(tbUserName, "Request Reject");
-                    BL_SMS.SendSMS(tbAccountNo, "Request Reject"); break;
+                    case 4:
+                        string RejectUserMsg = "Your refund request has been rejected for Number " + cusAccNo + " . Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        Task t1 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, RejectUserMsg);
+                        });
+                        t1.Start();
+                        break;
+                    case 9:
+                        string RefundUserMsg = "Your refund request has been succeed for Number " + cusAccNo + " . Amount has been refunded in your account . Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        Task t2 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, RefundUserMsg);
+                        });
+                        t2.Start();
+                        break;
 
-                    case 9:  BL_SMS.SendSMS(tbUserName, "Money Refunded");
-                    BL_SMS.SendSMS(tbAccountNo, "Request Reject"); 
-                    break;
-                    
                 }
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }

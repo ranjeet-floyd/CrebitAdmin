@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 using db;
+using System.Threading.Tasks;
 
 namespace CrebitAdminPanelNew
 {
@@ -62,7 +63,7 @@ namespace CrebitAdminPanelNew
             try
             {
                 SuccessCount = FailedCount = PendingCount = InProgressCount = otherCount = RejectCount = ReceivedCount = NotKnownCount = AwaitingCount = 0;
-                failed_AmountCount=success_AmountCount=Rejected_AmountCount=InPro_AmountCount = 0.0F;
+                failed_AmountCount = success_AmountCount = Rejected_AmountCount = InPro_AmountCount = 0.0F;
                 string ConnectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
                 SqlConnection thisConnection = new SqlConnection(ConnectionString);
                 SqlCommand thisCommand = thisConnection.CreateCommand();
@@ -93,7 +94,7 @@ namespace CrebitAdminPanelNew
                         string statusHtml = "";
                         //string commentNull = "";
                         string statusText = string.Empty;
-                                           
+
 
                         if (dateAmountAbstractor == 0)
                         {
@@ -115,7 +116,7 @@ namespace CrebitAdminPanelNew
                                         SuccessCount += 1;
                                         success_AmountCount += float.Parse(Amount);
                                         break;
-                                   
+
                                     case 3:
                                         InProgressCount += 1;
                                         InPro_AmountCount += float.Parse(Amount);
@@ -127,7 +128,8 @@ namespace CrebitAdminPanelNew
                                 }
                             }
                         }
-                        else {
+                        else
+                        {
 
                             switch (Status)
                             {
@@ -140,7 +142,7 @@ namespace CrebitAdminPanelNew
                                     SuccessCount += 1;
                                     success_AmountCount += float.Parse(Amount);
                                     break;
-                               
+
                                 case 3:
                                     InProgressCount += 1;
                                     InPro_AmountCount += float.Parse(Amount);
@@ -292,35 +294,48 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Text;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
-                // Changes Made By Jhamman on 26th Nov 2014 
-                //Getting User Mobile number and Cutomer Mobile Number When Status Changed 
                 string tbUserName = hdUserName.Value;
                 string tbCusMob = hdCumMob.Value;
+                string cusAccNo = string.Empty;////add from hidden field.
                 Handler obj = new Handler();
                 obj.AddTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = getElectricityFilterData(0, "0");
-                // Changes Made By Jhamman on 26th Nov 2014 
-                // Sending Message To User and Cutomer about  Status .
-                
+                //Ranjeet || 27-nov-14 ||Added SMS Message and Task.
                 switch (tbstatus)
                 {
-                    // BL_SMS Method Calling To sending Message.
-                    case 0:BL_SMS.SendSMS(tbUserName, "Failed");
-                        BL_SMS.SendSMS(tbCusMob, "Failed"); 
+                    case 0:
+                        string FailedCusMsg = "Your request to pay Electricity bill has been failed. Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        string FailedUserMsg = "Your request to pay Electricity bill has been failed for Customer  Account no. " + cusAccNo + " . Reason : " + comment + " .CREBIT Customer Experience Team.";
+                        Task t1 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, FailedUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, FailedCusMsg);
+                        });
+                        t1.Start();
                         break;
 
-                   case 1:BL_SMS.SendSMS(tbUserName, "Success");
-                   BL_SMS.SendSMS(tbCusMob, "Success"); break;
+                    case 1:
+                        string SuccessCusMsg = "Your request to pay Electricity bill has been succeed. MSEB Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
+                        string SuccessUserMsg = "Your request to pay Electricity bill has been succeed for Customer  Account no. " + cusAccNo + " . MSEB Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
+                        Task t2 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, SuccessUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, SuccessCusMsg);
+                        });
+                        t2.Start();
+                        break;
 
-                   case 4:  BL_SMS.SendSMS(tbUserName, "Success");
-                   BL_SMS.SendSMS(tbCusMob, "Request Reject"); break;
-                                    
-                
-                
+                    case 4:
+                        string RejectCusMsg = "Your request to pay Electricity bill has been rejected. Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        string RejectUserMsg = "Your request to pay Electricity bill has been rejected for Customer  Account no. " + cusAccNo + " . Reason : " + comment + " .CREBIT Customer Experience Team.";
+                        Task t3 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, RejectUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, RejectCusMsg);
+                        });
+                        t3.Start();
+                        break;
                 }
-
-
-
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }
         }

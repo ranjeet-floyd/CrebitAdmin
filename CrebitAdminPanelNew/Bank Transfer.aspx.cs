@@ -3,6 +3,7 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Configuration;
 using db;
+using System.Threading.Tasks;
 
 namespace CrebitAdminPanelNew
 {
@@ -280,29 +281,51 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Value;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
-                // Changes Made By Jhamman on 26th Nov 2014 
-                //Getting User Mobile number and Cutomer Mobile Number When Status Changed 
                 string tbUserName = hdUserName.Value;
                 string tbCusMob = hdCumMob.Value;
+                string cusName = string.Empty;//ewcwe
+                string AccNo = "";//add acount
                 Handler obj = new Handler();
                 obj.AddBankTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = GetBankTransFilterDetails(0, "0");
-                // Changes Made By Jhamman on 26th Nov 2014 
-                // Sending Message To User and Cutomer about  Status .
-                 switch (tbstatus)
+
+                //Ranjeet || 27-nov-14 ||Added SMS Message and Task.
+                switch (tbstatus)
                 {
-                         // BL_SMS Method Calling To sending Message.
-                    case 0:BL_SMS.SendSMS(tbUserName, "Failed");
-                    BL_SMS.SendSMS(tbCusMob, "Failed"); break;
+                    case 0:
+                        
+                        string FailedCusMsg = "Your request to transfer money has been failed for "+ cusName +" /Acc No."+AccNo+ ". Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        string FailedUserMsg = "Your request to transfer money has been failed for Customer Name " + cusName + " /Acc No."+AccNo+" . Amount has been refunded in your account. Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        Task t1 = new Task(() =>
+                        {
 
-                    case 1:BL_SMS.SendSMS(tbUserName, "Success");
-                    BL_SMS.SendSMS(tbCusMob, "Success"); break;
+                            BL_SMS.SendSMS(tbUserName, FailedUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, FailedCusMsg);
+                        });
+                        t1.Start();
+                        break;
 
-                    case 4:  BL_SMS.SendSMS(tbUserName, "Success");
-                    BL_SMS.SendSMS(tbCusMob, "Request Reject"); break;
-                                     
-                
-                
+                    case 1:
+                        string SuccessCusMsg = "Your request to transfer money has been succeed for "+ cusName +" /Acc No."+AccNo+" . Bank Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
+                        string SuccessUserMsg = "Your request to transfer money has been succeed for Customer Name " + cusName + " /Acc No." + AccNo + " . Bank Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
+                        Task t2 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, SuccessUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, SuccessCusMsg);
+                        });
+                        t2.Start();
+                        break;
+
+                    case 4:
+                        string RejectCusMsg = "Your request to transfer money has been rejected. Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        string RejectUserMsg = "Your request to transfer money has been rejected for Customer Name " + cusName + ". Amount has been refunded in your account. Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        Task t3 = new Task(() =>
+                        {
+                            BL_SMS.SendSMS(tbUserName, RejectUserMsg);
+                            BL_SMS.SendSMS(tbCusMob, RejectCusMsg);
+                        });
+                        t3.Start();
+                        break;
                 }
             }
             catch (Exception ex) { Trace.Warn(ex.Message); }
