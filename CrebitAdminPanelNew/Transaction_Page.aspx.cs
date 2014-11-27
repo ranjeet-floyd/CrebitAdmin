@@ -74,6 +74,7 @@ namespace CrebitAdminPanelNew
                 thisCommand.Parameters.AddWithValue("@Value", value);
                 DataBase db = new DataBase();
                 DataSet ds = db.SelectAdaptQry(thisCommand);
+                int count = 1;
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataRowCollection drc = ds.Tables[0].Rows;
@@ -281,14 +282,14 @@ namespace CrebitAdminPanelNew
                                 statusText = "Others";
                                 break;
 
-                        }               
+                        }
 
 
-                            htmlStr += "<tr><td>" + Id + "</td><td>" + UserName + "	</td><td>" + ApiTransactionId + "	</td><td>" + OperaterName + "/" + ServiceType
+                        htmlStr += "<tr><td>" + count + "</td><td>" + UserName + "	</td><td>" + ApiTransactionId + "	</td><td>" + OperaterName + "/" + ServiceType
                                + "</td><td>" + Amount + "</td><td>" + APiId +
                                "</td><td>" + CreditAccountNo +
                            "</td><td>" + CyberSessionId + "</td><td>" + Date + "	</td><td>" + statusText + "</td><td><div class='btn-group'><button type='button' value='Check Status'  class='btn btn-default'  data-toggle='modal' data-target='.status_model' > </button></div></td></tr>";
-
+                            count++;
 
                     }
                 }

@@ -45,7 +45,8 @@
             //Getting User Mobile Number and Customer Mobile Number Using  "ID"
             $("#hdUserName").val($("#user_" + Id + "").text());
             $("#hdCumMob").val($("#CusMOb_" + Id + "").text());
-           
+            $("#hdCumAccNo").val($("#CusAccNo_" + Id + "").text());
+
         }
     </script>
     <script type="text/javascript">
@@ -161,7 +162,7 @@
                     </li>
                 </ul>
             </div>
-           <%-- <div class="row placeholders">
+            <%-- <div class="row placeholders">
                 <div class="col-xs-6 col-sm-3 placeholder">
                    <img data-src="holder.js/200x200/text:(Success:<%=SuccessCount%>,Rs.<%=success_AmountCount%>)/auto//#000:#fff" class="img-responsive" alt="Generic placeholder thumbnail" />
                    </div>
@@ -176,91 +177,91 @@
                      <img data-src="holder.js/200x200/text:(In Progress:<%=InProgressCount%>,Rs.<%=InPro_AmountCount%>)/auto/vine" class="img-responsive" alt="Generic placeholder thumbnail" />
                  </div>
             </div>--%>
-            <br/>
-<div class="table-responsive">
-            <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
-                    
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>Success   </th>
+            <br />
+            <div class="table-responsive">
+                <div class="row placeholders">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
+
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Success   </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=SuccessCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=SuccessCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                        <td>Rs.<%=success_AmountCount%></td>
-                        </tr>
-                                                        
-                </table>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=success_AmountCount%></td>
+                            </tr>
+
+                        </table>
                     </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>Failed     </th>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Failed     </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=FailedCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=FailedCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                        <td>Rs.<%=failed_AmountCount%></td>
-                        </tr>
-                                                        
-                </table>
-
-            </div>
-                 <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>Rejected</th>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=failed_AmountCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=RejectCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                        <td>Rs.<%=Rejected_AmountCount%></td>
-                        </tr>
-                                                        
-                </table>
 
-            </div>
-                 <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>InProgress</th>
+                        </table>
+
+                    </div>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Rejected</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=RejectCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=InProgressCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                        <td>Rs.<%=InPro_AmountCount%></td>
-                        </tr>
-                                                        
-                </table>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=Rejected_AmountCount%></td>
+                            </tr>
 
-            </div>
+                        </table>
+
+                    </div>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 5%; margin-right: 5%">
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>InProgress</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=InProgressCount%></td>
+                            </tr>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=InPro_AmountCount%></td>
+                            </tr>
+
+                        </table>
+
+                    </div>
                 </div>
-    </div>
+            </div>
 
 
 
@@ -281,7 +282,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Id
+                                <th>#
                                 </th>
                                 <th>UserId
                                 </th>
@@ -344,10 +345,11 @@
                                 OnClick="btnInsert_ServerClick" />
                             <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                             <input id="hdbBtnLi" type="hidden" runat="server" />
-                          <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
-                        <%--Adding Hidden Fields To Getting User Mobile number and Cutomer Mobile Number When Status Changed--%>
-                             <input id="hdUserName" type="hidden" runat="server" />
-                             <input id="hdCumMob" type="hidden" runat="server" />
+                            <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
+                            <%--Adding Hidden Fields To Getting User Mobile number and Cutomer Mobile Number When Status Changed--%>
+                            <input id="hdUserName" type="hidden" runat="server" />
+                            <input id="hdCumMob" type="hidden" runat="server" />
+                            <input id="hdCumAccNo" type="hidden" runat="server" />
                             <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                         </div>
                     </div>

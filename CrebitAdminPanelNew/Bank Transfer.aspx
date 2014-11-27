@@ -41,6 +41,10 @@
             //Getting User Mobile Number and Customer Mobile Number Using  "ID"
             $("#hdUserName").val($("#user_" + Id + "").text());
             $("#hdCumMob").val($("#CusMOb_" + Id + "").text());
+            $("#hdAccountNo").val($("#AccountNo_" + Id + "").text());
+            $("#hdCusName").val($("#CusName_" + Id + "").text());
+            
+            
         }
     </script>
 
@@ -252,10 +256,11 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>#</th>
                                 <th>UserId</th>
                                   <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
                                 <%--Replaces BankName TO Customer Mobile Number--%>
+                                <th>CusName</th>
                                 <th>CusMob</th>
                                 <th>AccountNo</th>
                                 <th>IFSC</th>
@@ -329,6 +334,8 @@
 
                          <input id="hdUserName" type="hidden" runat="server" />
                         <input id="hdCumMob" type="hidden" runat="server" />
+                        <input id="hdAccountNo" type="hidden" runat="server" />
+                        <input id="hdCusName" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                     </div>
 

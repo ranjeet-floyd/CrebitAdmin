@@ -26,3 +26,8 @@ C:\Users\StackOverflow\Documents\GitHub\crebit-admin\CrebitAdminPanelNew\bin\Cre
 C:\Users\StackOverflow\Documents\GitHub\crebit-admin\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache
 C:\Users\StackOverflow\Documents\GitHub\crebit-admin\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.dll
 C:\Users\StackOverflow\Documents\GitHub\crebit-admin\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.dll
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Debug\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache

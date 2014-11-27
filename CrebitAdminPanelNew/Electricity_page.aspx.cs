@@ -22,6 +22,7 @@ namespace CrebitAdminPanelNew
         public string QueryString;
         public int type = 0;
         public string value = null;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             QueryString = Request.QueryString["u"];
@@ -73,6 +74,7 @@ namespace CrebitAdminPanelNew
                 thisCommand.Parameters.AddWithValue("@Value", value);
                 DataBase db = new DataBase();
                 DataSet ds = db.SelectAdaptQry(thisCommand);
+                int count = 1;
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRowCollection drc = ds.Tables[0].Rows;
@@ -225,8 +227,8 @@ namespace CrebitAdminPanelNew
 
                         }
 
-                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +
-                            "</td><td>" + CusAcc + "</td><td id='CusMOb_" + Id + "'>" + CusMob + "</td><td>" + DueDate + "</td><td>" + TransactionId +
+                        htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +
+                            "</td><td id='CusAccNo_" + Id + "'>" + CusAcc + "</td><td id='CusMOb_" + Id + "'>" + CusMob + "</td><td>" + DueDate + "</td><td>" + TransactionId +
                             "</td><td>" + ReqDate + "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
                         htmlStr += "<ul id='selectionToggle' class='dropdown-menu' role='menu'>" + optionHtml;
@@ -239,6 +241,7 @@ namespace CrebitAdminPanelNew
                         //htmlStr += "<li ><a id='atag_" + Id + "_7' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Not Known</a></li>";
                         //htmlStr += "<li ><a id='atag_" + Id + "_8' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Awaiting</a></li>";
                         htmlStr += "</ul></div></td><td></tr>";
+                        count++;
                     }
 
 
@@ -296,7 +299,7 @@ namespace CrebitAdminPanelNew
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
                 string tbUserName = hdUserName.Value;
                 string tbCusMob = hdCumMob.Value;
-                string cusAccNo = string.Empty;////add from hidden field.
+                string cusAccNo = hdCumAccNo.Value;
                 Handler obj = new Handler();
                 obj.AddTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = getElectricityFilterData(0, "0");

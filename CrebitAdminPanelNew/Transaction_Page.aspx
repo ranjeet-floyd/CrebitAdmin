@@ -356,7 +356,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Id
+                                <th>#
                                 </th>
                                 <th>UserId
                                 </th>

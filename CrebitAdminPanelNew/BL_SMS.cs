@@ -2,9 +2,6 @@
 //using api.dhs.Logging;
 using System.Net;
 using System.Text;
-using System.IO;
-using System.Net;
-using System.Diagnostics;
 
 namespace CrebitAdminPanelNew
 {
@@ -43,7 +40,7 @@ namespace CrebitAdminPanelNew
                 if (retVal.Equals("Invalid template or template mismatch"))
                 { _isSuccess = false; }
                 //Logger.WriteLog(LogLevelL4N.ERROR, "SendSMS | Error : " + retVal);
-                _isSuccess = true;
+                else { _isSuccess = true; }
             }
             catch (Exception ex)
             {

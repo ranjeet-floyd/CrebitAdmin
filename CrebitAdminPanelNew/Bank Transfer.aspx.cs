@@ -70,6 +70,7 @@ namespace CrebitAdminPanelNew
 
                 DataBase db = new DataBase();
                 DataSet ds = db.SelectAdaptQry(thisCommand);
+                int count = 1;
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     string statusOption = "";
@@ -89,6 +90,7 @@ namespace CrebitAdminPanelNew
                         string ReqDate = Convert.ToDateTime(item["RequestDate"]).ToString("d MMM yyyy h:mm tt ");
                         string Comments = "" + item["Comment"];
                         int StatusId = Convert.ToInt32(item["StatusId"]);
+                        string CusName = "" + item["CusName"];
                         string statusHtml = "";
                         string statusText = string.Empty;
 
@@ -223,7 +225,7 @@ namespace CrebitAdminPanelNew
                         }
 
 
-                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserName + "</td><td id='CusMOb_" + Id + "'>" + CusMobile + "	</td><td>" + Account + "	</td><td>" + IFSC +
+                        htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserName + "</td><td id='CusName_" + Id + "'>" + CusName + "</td><td id='CusMOb_" + Id + "'>" + CusMobile + "</td><td id='AccountNo_" + Id + "'>" + Account + "	</td><td>" + IFSC +
                             "	</td><td>" + Amount + "	</td><td>" + TransactionId +
                         "<td>" + BankTransId + "</td></td><td>" + ReqDate + "</td><td>" + Comments + "</td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
@@ -234,6 +236,7 @@ namespace CrebitAdminPanelNew
                         //htmlStr += "<li ><a id='atag_" + Id + "_7' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Not Known</a></li>";
                         //htmlStr += "<li ><a id='atag_" + Id + "_8' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Awaiting</a></li>";
                         htmlStr += "</ul></div></td><td></tr>";
+                        count++;
                     }
                 }
                 else
@@ -283,8 +286,8 @@ namespace CrebitAdminPanelNew
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
                 string tbUserName = hdUserName.Value;
                 string tbCusMob = hdCumMob.Value;
-                string cusName = string.Empty;//ewcwe
-                string AccNo = "";//add acount
+                string cusName = hdCusName.Value;
+                string AccNo = hdAccountNo.Value.Trim();
                 Handler obj = new Handler();
                 obj.AddBankTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = GetBankTransFilterDetails(0, "0");

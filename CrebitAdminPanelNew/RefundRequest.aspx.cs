@@ -60,6 +60,7 @@ namespace CrebitAdminPanelNew
                 thisCommand.Parameters.AddWithValue("@Value", value);
                 DataBase db = new DataBase();
                 DataSet ds = db.SelectAdaptQry(thisCommand);
+                int count = 1;
                 if (ds != null && ds.Tables.Count > 0)
                 {
                     DataRowCollection drc = ds.Tables[0].Rows;
@@ -178,10 +179,11 @@ namespace CrebitAdminPanelNew
 
                         }
 
-                        htmlStr += "<tr><td>" + Id + "</td><td id='user_" + Id + "'>" + UserId + "</td><td>" + Service + "</td><td>" + Amount + "</td><td>" +
+                        htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserId + "</td><td>" + Service + "</td><td>" + Amount + "</td><td>" +
                         Type + "</td><td id='account_" + Id + "'>" + AccountNo + "</td><td>" + ReqDate + "</td><td>" + TransactionId +
                         "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "</div></td><td></tr>";
+                        count++;
                     }
                 }
             }
@@ -316,7 +318,7 @@ namespace CrebitAdminPanelNew
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
                 string tbUserName = hdUserName.Value;
                 string tbAccountNo = hdaccountNo.Value;
-                string cusAccNo = tbAccountNo;//string.Empty;//add from hidden field.
+                string cusAccNo = tbAccountNo;
                 Handler obj = new Handler();
                 obj.AddRefundTranCommentData(tblId, comment, tbstatus);
                 table_data.InnerHtml = getRefundRequestFilterData(0, "0");

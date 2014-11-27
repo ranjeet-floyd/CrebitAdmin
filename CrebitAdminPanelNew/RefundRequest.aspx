@@ -39,8 +39,6 @@
             $("#hdnBtnId").val(Id);
             var listatus = parseInt(ArrayId[2]);
             $("#hdbBtnLi").val(listatus);
-            var UserId = parseInt(ArrayId[3]);
-            $("#hdBtnUserId").val(UserId);
             // Changes Made By Jhamman on 26th Nov 2014 
             //Getting User Mobile Number and Customer Mobile Number Using  "ID"
             $("#hdUserName").val($("#user_" + Id + "").text());
@@ -346,8 +344,8 @@
                     <li>
                         <input type="text" class="form-control" id="TransactionID" placeholder="CyberSession" /></li>
                     <li>
-                        <input type="button" class="form-control btn-primary" value="GetStatus" onclick="getStatus()" /></li>
-
+                        <input type="button" class="form-control btn-primary" value="GetStatus" data-toggle='modal' data-target='.status_model_2' onclick="getStatus()" /></li>
+                       
                 </ul>
             </div>
 
@@ -368,7 +366,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>#</th>
                                 <th>UserID</th>
                                 <th>OperaterName</th>
                                 <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
@@ -393,21 +391,18 @@
         </div>
 
 
-        <div class="modal fade status_model" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade status_model" id="myModal_1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
 
-                    <div class="modal-header">
-                        <%--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>--%>
-                        <h4 class="modal-title" id="H1">Comments :</h4>
+                   <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                       <h4 class="modal-title" id="H1">Comments :</h4>
                     </div>
                     <div class="modal-body">
-                        <%-- <input id="hdnBtnId" type="hidden" name="name"  runat="server" />--%>
+                         <input id="hdnBtnId_" type="hidden" name="name"  runat="server" />
                         <asp:TextBox ID="inputCommentToggleForm" Style="width: 100%; height: 100px" runat="server" />
                     </div>
-
-
-
                     <div class="modal-footer">
                         <%--<button type="button" class="btn btn-default" data-dismiss="modal" onclick="btnInsert_ServerClick">Close</button>--%>
                         <%--<asp:Button Text="Close" class="btn btn-default" runat="server" ID="closebtn" OnClick="btnClose_ServerClick" />--%>
@@ -426,7 +421,26 @@
                 </div>
             </div>
         </div>
-        <!-- Bootstrap core JavaScript
+
+         <div class="modal fade status_model_2" id="myModal_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header"><h4 class="modal-title" id="H2">Success:</h4>
+                        <span style="padding:50px"><asp:Label id="Label1" Text="Msg" runat="server"/></span>
+                            </div>
+                    <div class="modal-header"><h4 class="modal-title" id="ToggleTranId">TransactionId:</h4>
+                        <span style="padding:50px"><asp:Label id="TransId" Text="TransId" runat="server"/> </span>
+                            </div>
+                    
+                    <div class="modal-header"><h4 class="modal-title" id="ToggleMsg">Message:</h4>
+                        <span style="padding:50px"><asp:Label id="Message" Text="Msg" runat="server"/></span>
+                            </div>
+
+                     <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                      </div>
+                    </div></div></div>
+                <!-- Bootstrap core JavaScript
     ================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
 
@@ -441,7 +455,7 @@
 
     </form>
 </body>
-<%--<script>
+<script>
     //Get Margin List
     function getStatus() {
         var cyberSession = $("#cyberSession").val();
@@ -455,7 +469,7 @@
 
     function getStatusCallBack(resObj) {
         try {
-            
+             
             alert(resObj);
             }
         catch (ex) {
@@ -492,5 +506,6 @@
             }
         });
     }
-</script>--%>
+</script>
+
 </html>
