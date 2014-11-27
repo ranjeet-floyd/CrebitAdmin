@@ -280,13 +280,18 @@ namespace CrebitAdminPanelNew
                 string comment = inputCommentToggleForm.Value;
                 int tblId = Int32.Parse(hdnBtnId.Value);
                 int tbstatus = Int32.Parse(hdbBtnLi.Value);
+                // Changes Made By Jhamman on 26th Nov 2014 
+                //Getting User Mobile number and Cutomer Mobile Number When Status Changed 
                 string tbUserName = hdUserName.Value;
                 string tbCusMob = hdCumMob.Value;
                 Handler obj = new Handler();
                 obj.AddBankTranCommentData(tblId, tran, comment, tbstatus);
                 table_data.InnerHtml = GetBankTransFilterDetails(0, "0");
+                // Changes Made By Jhamman on 26th Nov 2014 
+                // Sending Message To User and Cutomer about  Status .
                  switch (tbstatus)
                 {
+                         // BL_SMS Method Calling To sending Message.
                     case 0:BL_SMS.SendSMS(tbUserName, "Failed");
                     BL_SMS.SendSMS(tbCusMob, "Failed"); break;
 

@@ -37,6 +37,8 @@
             $("#hdnBtnId").val(Id);
             var listatus = parseInt(ArrayId[2]);
             $("#hdbBtnLi").val(listatus);
+            // Changes Made By Jhamman on 26th Nov 2014 
+            //Getting User Mobile Number and Customer Mobile Number Using  "ID"
             $("#hdUserName").val($("#user_" + Id + "").text());
             $("#hdCumMob").val($("#CusMOb_" + Id + "").text());
         }
@@ -252,6 +254,8 @@
                             <tr>
                                 <th>Id</th>
                                 <th>UserId</th>
+                                  <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
+                                <%--Replaces BankName TO Customer Mobile Number--%>
                                 <th>CusMob</th>
                                 <th>AccountNo</th>
                                 <th>IFSC</th>
@@ -319,7 +323,11 @@
                         <asp:Button Text="Save changes" class="btn btn-primary" runat="server" ID="saveChangebtn" OnClick="btnInsert_ServerClick" />
                         <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                         <input id="hdbBtnLi" type="hidden" runat="server" />
-                        <input id="hdUserName" type="hidden" runat="server" />
+
+                       <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
+                        <%--Adding Hidden Fields To Getting User Mobile number and Cutomer Mobile Number When Status Changed--%>
+
+                         <input id="hdUserName" type="hidden" runat="server" />
                         <input id="hdCumMob" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
                     </div>

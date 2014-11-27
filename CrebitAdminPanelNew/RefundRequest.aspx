@@ -41,6 +41,8 @@
             $("#hdbBtnLi").val(listatus);
             var UserId = parseInt(ArrayId[3]);
             $("#hdBtnUserId").val(UserId);
+            // Changes Made By Jhamman on 26th Nov 2014 
+            //Getting User Mobile Number and Customer Mobile Number Using  "ID"
             $("#hdUserName").val($("#user_" + Id + "").text());
             $("#hdaccountNo").val($("#account_" + Id + "").text());
 
@@ -267,87 +269,89 @@
                 </ul>
 
             </div>
-            <br/>
+            <br />
             <div class="table-responsive">
-            <div class="row placeholders">
-                <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
-                    
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>Refunded   </th>
+                <div class="row placeholders">
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
+
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Refunded   </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=RefundCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=RefundCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                       <td>Rs.<%=Refund_AmountCount%></td>
-                        
-                        </tr>
-                                                        
-                </table>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=Refund_AmountCount%></td>
+
+                            </tr>
+
+                        </table>
                     </div>
-                <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>Rejected    </th>
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Rejected    </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=RejectCount%></td>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=RejectCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                        <td>Rs.<%=Rejected_AmountCount%></td>
-                       
-                        </tr>
-                                                        
-                </table>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=Rejected_AmountCount%></td>
 
-            </div>
-                
-                <div class="col-xs-6 col-sm-3 placeholder">
-                <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
-                    <thead>
-                        <tr class="TableColor">
-                            <th># </th>
-                            <th>InProgress   </th>
                             </tr>
-                    </thead>
-                    <tr>
-                        <td style="background-color: #000; color: #fff;">Count</td>
-                        <td><%=InProgressCount%></td>
-                        </tr>
-                    <tr>
-                        <td class="TableColor">Amount</td>
-                       <td>Rs.<%=InPro_AmountCount%></td>
-                       
-                        </tr>
-                                                        
-                </table>
 
-            </div>
+                        </table>
+
+                    </div>
+
+                    <div class="col-xs-6 col-sm-3 placeholder">
+                        <table class="table table-striped" style="border: 1px solid black; width: 25%; margin-left: 5%; margin-right: 5%">
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>InProgress   </th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Count</td>
+                                <td><%=InProgressCount%></td>
+                            </tr>
+                            <tr>
+                                <td class="TableColor">Amount</td>
+                                <td>Rs.<%=InPro_AmountCount%></td>
+
+                            </tr>
+
+                        </table>
+
+                    </div>
                 </div>
-    </div>
-  
-             <div class="navbar-collapse collapse subData">
+            </div>
+
+            <div class="navbar-collapse collapse subData">
                 <ul class="nav navbar-nav navbar-right margin5 ">
-                    
-                   <%-- <li><input type="text" class="form-control" ID="operatorId" placeholder="OperatorID" /></li>--%>
-                    <li><input type="text" class="form-control" ID="TransactionID" placeholder="CyberSession" /></li>                     
-                    <li><input type="button" class="form-control btn-primary"  value="GetStatus" onclick="getStatus()" /></li>                       
-                    
+
+                    <%-- <li><input type="text" class="form-control" ID="operatorId" placeholder="OperatorID" /></li>--%>
+                    <li>
+                        <input type="text" class="form-control" id="TransactionID" placeholder="CyberSession" /></li>
+                    <li>
+                        <input type="button" class="form-control btn-primary" value="GetStatus" onclick="getStatus()" /></li>
+
                 </ul>
             </div>
 
-             <!--Electricity -->
+            <!--Electricity -->
             <div id="electricity-details">
                 <p id="electricity"></p>
 
@@ -367,6 +371,8 @@
                                 <th>Id</th>
                                 <th>UserID</th>
                                 <th>OperaterName</th>
+                                <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
+                                <%--Adding New Column "Amount" to Show the Amount Details to Admin            --%>
                                 <th>Amount</th>
                                 <th>ServiceType</th>
                                 <th>AccountNo</th>
@@ -390,7 +396,7 @@
         <div class="modal fade status_model" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                  
+
                     <div class="modal-header">
                         <%--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>--%>
                         <h4 class="modal-title" id="H1">Comments :</h4>
@@ -410,6 +416,8 @@
                         <input id="hdnBtnId" type="hidden" name="name" runat="server" />
                         <input id="hdbBtnLi" type="hidden" runat="server" />
                         <input id="hdBtnUserId" type="hidden" runat="server" />
+                        <%-- Changes Made By Jhamman on 26th Nov 2014 --%>
+                        <%--Adding Hidden Fields To Getting User Mobile number and Cutomer Mobile Number When Status Changed--%>
                         <input id="hdUserName" type="hidden" runat="server" />
                         <input id="hdaccountNo" type="hidden" runat="server" />
                         <%-- <button type="button" class="btn btn-primary">Save changes</button>--%>
