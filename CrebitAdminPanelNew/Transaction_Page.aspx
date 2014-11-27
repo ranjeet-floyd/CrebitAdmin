@@ -295,10 +295,10 @@
                     </thead>
                     <tr>
                         <td style="background-color: #000; color: #fff;">Count</td>
-                        <td>Rs.<%=SuccessCount%></td>
-                        <td>Rs. <%= FailedCount%></td>
-                        <td>Rs.<%=PendingCount%>  </td>
-                        <td>Rs.<%= InProgressCount%> </td>
+                        <td><%=SuccessCount%></td>
+                        <td><%= FailedCount%></td>
+                        <td><%=PendingCount%>  </td>
+                        <td><%= InProgressCount%> </td>
                     </tr>
                     <tr>
                         <td class="TableColor">Amount</td>
