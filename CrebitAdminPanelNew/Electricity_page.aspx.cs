@@ -60,7 +60,7 @@ namespace CrebitAdminPanelNew
         public string getElectricityFilterData(int type, string value)
         {
             string htmlStr = "";
-            string optionHtml = "";
+
             try
             {
                 SuccessCount = FailedCount = PendingCount = InProgressCount = otherCount = RejectCount = ReceivedCount = NotKnownCount = AwaitingCount = 0;
@@ -80,7 +80,9 @@ namespace CrebitAdminPanelNew
                     DataRowCollection drc = ds.Tables[0].Rows;
                     foreach (DataRow item in drc)
                     {
-
+                        //Modified: Ranjeet | 01-Dec-14
+                        //Removed Extra switch case and fixed same id Issue
+                        string optionHtml = "";
                         string Id = item["Id"].ToString();
                         string UserID = item["UserName"].ToString();
                         string Amount = item["Amount"].ToString();
@@ -97,63 +99,26 @@ namespace CrebitAdminPanelNew
                         //string commentNull = "";
                         string statusText = string.Empty;
 
-
-                        if (dateAmountAbstractor == 0)
+                        switch (Status)
                         {
-                            DateTime fromdate = Convert.ToDateTime(ReqDate);
-                            string date = fromdate.GetDateTimeFormats('d')[0];
-                            DateTime now = DateTime.Now;
-                            string nowdate = now.GetDateTimeFormats('d')[0];
+                            case 0:
+                                FailedCount += 1;
+                                failed_AmountCount += float.Parse(Amount);
+                                break;
 
-                            if (nowdate.Equals(date))
-                            {
-                                switch (Status)
-                                {
-                                    case 0:
-                                        FailedCount += 1;
-                                        failed_AmountCount += float.Parse(Amount);
-                                        break;
+                            case 1:
+                                SuccessCount += 1;
+                                success_AmountCount += float.Parse(Amount);
+                                break;
 
-                                    case 1:
-                                        SuccessCount += 1;
-                                        success_AmountCount += float.Parse(Amount);
-                                        break;
-
-                                    case 3:
-                                        InProgressCount += 1;
-                                        InPro_AmountCount += float.Parse(Amount);
-                                        break;
-                                    case 4:
-                                        RejectCount += 1;
-                                        Rejected_AmountCount += float.Parse(Amount);
-                                        break;
-                                }
-                            }
-                        }
-                        else
-                        {
-
-                            switch (Status)
-                            {
-                                case 0:
-                                    FailedCount += 1;
-                                    failed_AmountCount += float.Parse(Amount);
-                                    break;
-
-                                case 1:
-                                    SuccessCount += 1;
-                                    success_AmountCount += float.Parse(Amount);
-                                    break;
-
-                                case 3:
-                                    InProgressCount += 1;
-                                    InPro_AmountCount += float.Parse(Amount);
-                                    break;
-                                case 4:
-                                    RejectCount += 1;
-                                    Rejected_AmountCount += float.Parse(Amount);
-                                    break;
-                            }
+                            case 3:
+                                InProgressCount += 1;
+                                InPro_AmountCount += float.Parse(Amount);
+                                break;
+                            case 4:
+                                RejectCount += 1;
+                                Rejected_AmountCount += float.Parse(Amount);
+                                break;
                         }
 
                         optionHtml = "";
@@ -163,25 +128,15 @@ namespace CrebitAdminPanelNew
                                 statusHtml = "<button type='button' id='btn_" + Id + "' disabled class='btn btn-success dropdown-toggle' data-toggle='dropdown'>";
                                 //SuccessCount += 1;
                                 statusText = "Success";
-                                //optionHtml += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
-                                optionHtml += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>";
-                                optionHtml += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                optionHtml += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li>";
+
                                 break;
                             case 0:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' disabled class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>";
                                 //FailedCount += 1;
                                 statusText = "Failed";
-                                optionHtml += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
-                                //optionHtml += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>";
-                                optionHtml += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                optionHtml += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li>";
+
                                 break;
-                            //case 2:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
-                            //    PendingCount += 1;
-                            //    statusText = "Pending";
-                            //    break;
+
                             case 3:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>";
                                 //InProgressCount += 1;
@@ -195,26 +150,9 @@ namespace CrebitAdminPanelNew
                                 statusHtml = "<button type='button' id='btn_" + Id + "' disabled class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
                                 //RejectCount += 1;
                                 statusText = "Reject";
-                                optionHtml += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
-                                optionHtml += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li> ";
-                                optionHtml += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                //optionHtml += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li>";
+
                                 break;
-                            //case 5:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>";
-                            //    ReceivedCount += 1;
-                            //    statusText = "Received";
-                            //    break;
-                            //case 7:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
-                            //    NotKnownCount += 1;
-                            //    statusText = "Not Known";
-                            //    break;
-                            //case 8:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-active  dropdown-toggle' data-toggle='dropdown'>";
-                            //    AwaitingCount += 1;
-                            //    statusText = "Awaiting";
-                            //    break;
+
                             default:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>";
                                 //otherCount += 1;
@@ -232,14 +170,7 @@ namespace CrebitAdminPanelNew
                             "</td><td>" + ReqDate + "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
                         htmlStr += "<ul id='selectionToggle' class='dropdown-menu' role='menu'>" + optionHtml;
-                        //  htmlStr +=  "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
-                        //htmlStr += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>  <li ><a id='atag_" + Id + "_2' data-toggle='modal'  data-target='.status_model' onclick='setModelHiddenValu(this)'>Pending</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_5' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Received</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_6' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Others</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_7' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Not Known</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_8' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Awaiting</a></li>";
+
                         htmlStr += "</ul></div></td><td></tr>";
                         count++;
                     }

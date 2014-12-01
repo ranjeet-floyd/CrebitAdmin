@@ -10,7 +10,7 @@ namespace CrebitAdminPanelNew
     {
         public int SuccessCount, FailedCount, PendingCount, InProgressCount, otherCount, RejectCount, ReceivedCount, NotKnownCount, AwaitingCount, RefundCount;
         public int dateAmountAbstractor = 0;
-        public float Refund_AmountCount,Rejected_AmountCount, InPro_AmountCount;
+        public float Refund_AmountCount, Rejected_AmountCount, InPro_AmountCount;
         private string UserId = string.Empty;
         public string QueryString;
         public int type = 0;
@@ -48,7 +48,7 @@ namespace CrebitAdminPanelNew
             string htmlStr = "";
             try
             {
-                SuccessCount = FailedCount = PendingCount = InProgressCount = otherCount = RejectCount = ReceivedCount = NotKnownCount = AwaitingCount =RefundCount= 0;
+                SuccessCount = FailedCount = PendingCount = InProgressCount = otherCount = RejectCount = ReceivedCount = NotKnownCount = AwaitingCount = RefundCount = 0;
                 Refund_AmountCount = Rejected_AmountCount = InPro_AmountCount = 0.0F;
                 string ConnectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
 
@@ -80,77 +80,40 @@ namespace CrebitAdminPanelNew
                         string Amount = "" + item["Amount"].ToString();
                         string statusHtml = "";
                         string statusText = string.Empty;
-
-                        if (dateAmountAbstractor == 0)
-                        {
-                            DateTime fromdate = Convert.ToDateTime(ReqDate);
-                            string date = fromdate.GetDateTimeFormats('d')[0];
-                            DateTime now = DateTime.Now;
-                            string nowdate = now.GetDateTimeFormats('d')[0];
-
-                            if (nowdate.Equals(date))
-                            {
-                                //Refund_AmountCount,Rejected_AmountCount, InPro_AmountCount;
-                                switch (Status)
-                                {
-                                    
-                                    case 3:
-                                        InProgressCount += 1;
-                                        InPro_AmountCount += float.Parse(Amount);
-                                        break;
-
-                                    case 4:
-                                        RejectCount += 1;
-                                        Rejected_AmountCount += float.Parse(Amount);
-
-                                        break;
-                                    case 9:
-                                        RefundCount += 1;
-                                        Refund_AmountCount += float.Parse(Amount);
-                                        break;
-
-                                }
-                            }
-                        }
-                        else
+                        //Modified: Ranjeet | 01-Dec-14
+                        //Removed Extra switch case and fixed same id Issue
+                        switch (Status)
                         {
 
-                            switch (Status)
-                            {
+                            case 3:
+                                InProgressCount += 1;
+                                InPro_AmountCount += float.Parse(Amount);
+                                break;
 
-                                case 3:
-                                    InProgressCount += 1;
-                                    InPro_AmountCount += float.Parse(Amount);
-                                    break;
+                            case 4:
+                                RejectCount += 1;
+                                Rejected_AmountCount += float.Parse(Amount);
 
-                                case 4:
-                                    RejectCount += 1;
-                                    Rejected_AmountCount += float.Parse(Amount);
+                                break;
+                            case 9:
+                                RefundCount += 1;
+                                Refund_AmountCount += float.Parse(Amount);
+                                break;
 
-                                    break;
-                                case 9:
-                                    RefundCount += 1;
-                                    Refund_AmountCount += float.Parse(Amount);
-                                    break;
-
-                            }
                         }
-                                     
+
                         switch (Status)
                         {
                             case 9:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-success dropdown-toggle' data-toggle='dropdown' disabled>";
-                               // SuccessCount += 1;
+                                // SuccessCount += 1;
                                 statusText = "Refunded";
-                                //statusHtml += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
-                                //statusHtml += "<ul id='selectionToggle' class='dropdown-menu' role='menu'>";
-                                //statusHtml += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                //statusHtml += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li></ul>";
+
                                 break;
 
                             case 3:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>";
-                               // InProgressCount += 1;
+                                // InProgressCount += 1;
                                 statusText = "In Progress";
                                 statusHtml += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
                                 statusHtml += "<ul id='selectionToggle' class='dropdown-menu' role='menu'><li ><a id='atag_" + Id + "_9' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Refunded</a></li>";
@@ -160,11 +123,6 @@ namespace CrebitAdminPanelNew
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-danger dropdown-toggle' data-toggle='dropdown' disabled>";
                                 //RejectCount += 1;
                                 statusText = "Reject";
-                                //statusHtml += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
-                                //statusHtml += "<ul id='selectionToggle' class='dropdown-menu' role='menu'><li ><a id='atag_" + Id + "_9' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Refunded</a></li>";
-                                //statusHtml += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                //statusHtml += "</ul>";
-
                                 break;
 
                             default:
@@ -203,8 +161,8 @@ namespace CrebitAdminPanelNew
                 type = Int32.Parse(SeletionList.Value);
                 switch (type)
                 {
-                    
-                       case 2:
+
+                    case 2:
 
                         value = operaterName.Value;
                         switch (value)
@@ -271,7 +229,7 @@ namespace CrebitAdminPanelNew
 
                         break;
 
-                       case 3:
+                    case 3:
                         value = serviceList.Value;
                         switch (value)
                         {

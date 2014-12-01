@@ -73,11 +73,13 @@ namespace CrebitAdminPanelNew
                 int count = 1;
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    string statusOption = "";
+
                     DataRowCollection drc = ds.Tables[0].Rows;
                     foreach (DataRow item in drc)
                     {
-
+                        //Modified: Ranjeet | 01-Dec-14
+                        //Removed Extra switch case and fixed same id Issue
+                        string statusOption = "";
                         string Id = "" + item["Id"].ToString();
                         string UserName = "" + item["UserName"];
                         string CusMobile = "" + item["CusMobile"];
@@ -94,79 +96,18 @@ namespace CrebitAdminPanelNew
                         string statusHtml = "";
                         string statusText = string.Empty;
 
-                        //DateTime theDateA = DateTime.Parse(ReqDate);
-                      //abstract Amount With Currentdate 
-                        if (dateAmountAbstractor == 0)
-                        {
-                            DateTime fromdate = Convert.ToDateTime(ReqDate);
-                            string date = fromdate.GetDateTimeFormats('d')[0];
-                            DateTime now = DateTime.Now;
-                            string nowdate = now.GetDateTimeFormats('d')[0];
-
-                            if (nowdate.Equals(date))
-                            {
-                                switch (StatusId)
-                                {
-                                    case 0:
-                                        FailedCount += 1;
-                                        failed_AmountCount += float.Parse(Amount);
-                                        break;
-
-                                    case 1:
-                                        SuccessCount += 1;
-                                        success_AmountCount += float.Parse(Amount);
-                                        break;
-                                                                           
-                                    case 3:
-                                        InProgressCount += 1;
-                                        InPro_AmountCount += float.Parse(Amount);
-                                        break;
-                                    case 4:
-                                        RejectCount += 1;
-                                        Rejected_AmountCount += float.Parse(Amount);
-                                        break;
-                                }
-                            }
-                        }
-                        else
-                        {
-
-                            switch (StatusId)
-                            {
-                                case 0:
-                                    FailedCount += 1;
-                                    failed_AmountCount += float.Parse(Amount);
-                                    break;
-
-                                case 1:
-                                    SuccessCount += 1;
-                                    success_AmountCount += float.Parse(Amount);
-                                    break;
-                                                                    
-                                case 3:
-                                    InProgressCount += 1;
-                                    InPro_AmountCount += float.Parse(Amount);
-                                    break;
-                                case 4:
-                                    RejectCount += 1;
-                                    Rejected_AmountCount += float.Parse(Amount);
-                                    break;
-                                    
-                            }
-                        }
                         switch (StatusId)
                         {
                             case 1:
+                                SuccessCount += 1;
+                                success_AmountCount += float.Parse(Amount);
                                 statusHtml = "<button disabled type='button' id='btn_" + Id + "' class='btn btn-success dropdown-toggle' data-toggle='dropdown'>";
                                 //SuccessCount += 1;
                                 statusText = "Success";
-                                //statusOption += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
-                                //statusOption += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>  
-                                //statusOption += "<li ><a id='atag_" + Id + "_2' data-toggle='modal'  data-target='.status_model' onclick='setModelHiddenValu(this)'>Pending</a></li>";
-                                //statusOption += "<li ><a id='atag_" + Id + "_3' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>In Progress</a></li>";
-                                //statusOption += "<li ><a id='atag_" + Id + "_4' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Reject</a></li>";
                                 break;
                             case 0:
+                                FailedCount += 1;
+                                failed_AmountCount += float.Parse(Amount);
                                 statusHtml = "<button disabled type='button' id='btn_" + Id + "' class='btn btn-danger dropdown-toggle' data-toggle='dropdown'>";
                                 //FailedCount += 1;
                                 statusText = "Failed";
@@ -174,7 +115,7 @@ namespace CrebitAdminPanelNew
                                 break;
                             case 2:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
-                               // PendingCount += 1;
+                                // PendingCount += 1;
                                 statusText = "Pending";
                                 statusOption += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
                                 statusOption += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>";
@@ -185,6 +126,8 @@ namespace CrebitAdminPanelNew
                             case 3:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-info dropdown-toggle' data-toggle='dropdown'>";
                                 //InProgressCount += 1;
+                                InProgressCount += 1;
+                                InPro_AmountCount += float.Parse(Amount);
                                 statusText = "In Progress";
                                 statusOption += "<li ><a id='atag_" + Id + "_1' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Success</a></li>";
                                 statusOption += "<li><a id='atag_" + Id + "_0' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Failed</a></li>";
@@ -195,23 +138,10 @@ namespace CrebitAdminPanelNew
                             case 4:
                                 statusHtml = "<button disabled type='button' id='btn_" + Id + "' class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
                                 //RejectCount += 1;
+                                RejectCount += 1;
+                                Rejected_AmountCount += float.Parse(Amount);
                                 statusText = "Reject";
                                 break;
-                            //case 5:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'>";
-                            //    ReceivedCount += 1;
-                            //    statusText = "Received";
-                            //    break;
-                            //case 7:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-warning dropdown-toggle' data-toggle='dropdown'>";
-                            //    NotKnownCount += 1;
-                            //    statusText = "Not Known";
-                            //    break;
-                            //case 8:
-                            //    statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-active  dropdown-toggle' data-toggle='dropdown'>";
-                            //    AwaitingCount += 1;
-                            //    statusText = "Awaiting";
-                            //    break;
                             default:
                                 statusHtml = "<button type='button' id='btn_" + Id + "' class='btn btn-default dropdown-toggle' data-toggle='dropdown'>";
                                 //otherCount += 1;
@@ -224,17 +154,11 @@ namespace CrebitAdminPanelNew
                                 break;
                         }
 
-
                         htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserName + "</td><td id='CusName_" + Id + "'>" + CusName + "</td><td id='CusMOb_" + Id + "'>" + CusMobile + "</td><td id='AccountNo_" + Id + "'>" + Account + "	</td><td>" + IFSC +
                             "	</td><td>" + Amount + "	</td><td>" + TransactionId +
                         "<td>" + BankTransId + "</td></td><td>" + ReqDate + "</td><td>" + Comments + "</td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";
                         htmlStr += "<ul id='selectionToggle' class='dropdown-menu' role='menu'>" + statusOption;
-
-                        //htmlStr += "<li ><a id='atag_" + Id + "_5' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Received</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_6' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Others</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_7' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Not Known</a></li>";
-                        //htmlStr += "<li ><a id='atag_" + Id + "_8' data-toggle='modal' data-target='.status_model' onclick='setModelHiddenValu(this)'>Awaiting</a></li>";
                         htmlStr += "</ul></div></td><td></tr>";
                         count++;
                     }
@@ -260,7 +184,7 @@ namespace CrebitAdminPanelNew
                 switch (type)
                 {
                     case 4:
-                       
+
                         value = inputtxtDate.Value.ToString();
                         break;
                     case 7:
@@ -296,9 +220,9 @@ namespace CrebitAdminPanelNew
                 switch (tbstatus)
                 {
                     case 0:
-                        
-                        string FailedCusMsg = "Your request to transfer money has been failed for "+ cusName +" /Acc No."+AccNo+ ". Reason : " + comment + ". CREBIT Customer Experience Team.";
-                        string FailedUserMsg = "Your request to transfer money has been failed for Customer Name " + cusName + " /Acc No."+AccNo+" . Amount has been refunded in your account. Reason : " + comment + ". CREBIT Customer Experience Team.";
+
+                        string FailedCusMsg = "Your request to transfer money has been failed for " + cusName + " /Acc No." + AccNo + ". Reason : " + comment + ". CREBIT Customer Experience Team.";
+                        string FailedUserMsg = "Your request to transfer money has been failed for Customer Name " + cusName + " /Acc No." + AccNo + " . Amount has been refunded in your account. Reason : " + comment + ". CREBIT Customer Experience Team.";
                         Task t1 = new Task(() =>
                         {
 
@@ -309,7 +233,7 @@ namespace CrebitAdminPanelNew
                         break;
 
                     case 1:
-                        string SuccessCusMsg = "Your request to transfer money has been succeed for "+ cusName +" /Acc No."+AccNo+" . Bank Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
+                        string SuccessCusMsg = "Your request to transfer money has been succeed for " + cusName + " /Acc No." + AccNo + " . Bank Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
                         string SuccessUserMsg = "Your request to transfer money has been succeed for Customer Name " + cusName + " /Acc No." + AccNo + " . Bank Transaction Id : " + tran + " for future reference. CREBIT Customer Experience Team.";
                         Task t2 = new Task(() =>
                         {
