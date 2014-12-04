@@ -96,6 +96,7 @@ namespace CrebitAdminPanelNew
                         String Comments = "" + item["Comment"].ToString();
                         int Status = Convert.ToInt32(item["Status"]);
                         string statusHtml = "";
+                        string OperaterName = "" + item["OperaterName"].ToString();
                         //string commentNull = "";
                         string statusText = string.Empty;
 
@@ -165,7 +166,7 @@ namespace CrebitAdminPanelNew
 
                         }
 
-                        htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +
+                        htmlStr += "<tr><td>" + count + "</td><td id='user_" + Id + "'>" + UserID + "</td><td>" + Amount + "</td><td>" + BUId +"/" + OperaterName+
                             "</td><td id='CusAccNo_" + Id + "'>" + CusAcc + "</td><td id='CusMOb_" + Id + "'>" + CusMob + "</td><td>" + DueDate + "</td><td>" + TransactionId +
                             "</td><td>" + ReqDate + "</td><td><textarea>" + Comments + "</textarea></td><td>" + statusText + "<td><div class='btn-group dropup'>" + statusHtml;
                         htmlStr += "<span class='caret'></span><span class='sr-only'>Toggle Dropdown</span>  </button> ";

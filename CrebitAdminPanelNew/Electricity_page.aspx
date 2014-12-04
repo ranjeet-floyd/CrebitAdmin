@@ -291,7 +291,7 @@
                             </th>--%>
                                 <th>Amount
                                 </th>
-                                <th>BUId
+                                <th>BUId /OperaterName
                                 </th>
                                 <th>AccountNo
                                 </th>
