@@ -1,0 +1,12 @@
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll.config
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.pdb
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.dll
+E:\work\CrebitAdminPanelNew\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.pdb
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll.config
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.pdb
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.dll
+C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.pdb

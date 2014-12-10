@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\Package\PackageTmp" />
+  <setAcl path="C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+</sitemanifest>
