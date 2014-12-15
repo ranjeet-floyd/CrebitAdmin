@@ -83,6 +83,8 @@ namespace CrebitAdminPanelNew
                 //listDB = new List<DBDataVar>();
 
                 CrebitDbDic = new Dictionary<string, DBDataVar>();
+              
+                //Getting Data From DataBase and Putting it in CrebitDb Dictionary , HashSet_DB,HashSet_collection 
                 foreach (DataRow item in drcDB)
                 {
                     CrebitDbDic[item["ApiTransactionId"].ToString()] = new DBDataVar() { OperaterName = Convert.ToString(item["OperaterName"]).Trim(), Date = Convert.ToDateTime(item["Date"]), ApiTransactionId = Convert.ToString(item["ApiTransactionId"]) };
@@ -122,18 +124,19 @@ namespace CrebitAdminPanelNew
                     DataRowCollection drc = dsExcel.Tables[0].Rows;
                     Dictionary<String, excelDataVar> excelDic = new Dictionary<string, excelDataVar>();
                     HashSet<string> _API_HashSet_Excel = new HashSet<string>();
+                    //Getting Data From Excel file and Putting it in Excel Dictionary , HashSet_Excel,HashSet_collection 
                     foreach (DataRow item in drc)
                     {
                         excelDic[item["ApiTransactionId"].ToString()] = new excelDataVar() { OperaterName = Convert.ToString(item["OperaterName"]).Trim(), Date = Convert.ToDateTime(item["Date"]), ApiTransactionId = Convert.ToString(item["ApiTransactionId"]) };
                         _API_HashSet_Excel.Add(Convert.ToString(item["ApiTransactionId"]));
                         _API_HashSet_Collection.Add(Convert.ToString(item["ApiTransactionId"]));
                     }
-                    // give common TransId b/w DB_Data and Excel Sheet Data
+                    // Get common TransId b/w DB_Data and Excel Sheet Data
                     _API_HashSet_DB.IntersectWith(_API_HashSet_Excel);
                     //Get Disint Data B/w DB_Data and Excel Sheet Data
                     _API_HashSet_Collection.ExceptWith(_API_HashSet_DB);
 
-
+                    //Getting Data using  key (KeyTrans) and putting it into dictionary
                     foreach (String keyTrans in _API_HashSet_Collection)
                     {
                         if(excelDic.ContainsKey(keyTrans))
@@ -142,7 +145,7 @@ namespace CrebitAdminPanelNew
                            findDic[keyTrans] = new finalDataVar() { OperaterName =CrebitDbDic[keyTrans].OperaterName , Date = CrebitDbDic[keyTrans].Date, ApiTransactionId = CrebitDbDic[keyTrans].ApiTransactionId };
                     }
 
-                    // show UnMatched Data 
+                    // retrive Unmatched Data from dictionarySSSS
                     foreach (var dt in findDic)
                     {
                         htmlStr += "<tr><td>" + dt.Value.OperaterName + "</td><td>" + dt.Value.Date + "</td><td>" + dt.Value.ApiTransactionId + "</td><tr>";
