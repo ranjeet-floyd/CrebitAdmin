@@ -10,3 +10,8 @@ C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\
 C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache
 C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.dll
 C:\Users\StackOverflow\Downloads\Compressed\CrebitAdminNew___4\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminNew__\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.dll
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\bin\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.dll
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.pdb
+C:\Users\DHS\bitblue-admin-crebit\CrebitAdminPanelNew\obj\Release\CrebitAdminPanelNew.csprojResolveAssemblyReference.cache

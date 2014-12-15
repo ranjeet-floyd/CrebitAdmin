@@ -127,3 +127,11 @@ paper-toggle-button.blue::shadow paper-radio-button::shadow #ink[checked] {
     paper-toggle-button.blue::shadow #toggleBar[checked] {
       background-color: #4285f4;
     }
+ 
+    /*
+ * BlackBg and White text table heading
+ */
+       .TableColor { 
+    background-color:#000;
+	color:#fff
+}

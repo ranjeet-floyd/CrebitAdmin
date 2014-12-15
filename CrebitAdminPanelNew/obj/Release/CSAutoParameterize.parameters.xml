@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
-  <parameter name="connString-Web.config Connection String" description="connString Connection String used in web.config by the application to access the database." defaultValue="Data Source=Blue014.db.9223203.hostedresource.com;database=Blue014;uid=Blue014;password=Crebit9#" tags="SqlConnectionString">
-    <parameterEntry kind="XmlFile" scope="C:\\Users\\StackOverflow\\Downloads\\Compressed\\CrebitAdminNew___4\\CrebitAdminNew__\\CrebitAdminNew__\\CrebitAdminNew__\\CrebitAdminPanelNew\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='connString']/@connectionString" />
+  <parameter name="connString-Web.config Connection String" description="connString Connection String used in web.config by the application to access the database." defaultValue="Data Source=Blue014.db.9223203.hostedresource.com;database=Blue014;uid=Blue014;password=CrebitBlue14#" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\DHS\\bitblue-admin-crebit\\CrebitAdminPanelNew\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='connString']/@connectionString" />
   </parameter>
 </parameters>
