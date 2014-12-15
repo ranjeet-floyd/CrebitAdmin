@@ -70,7 +70,7 @@ namespace CrebitAdminPanelNew
             SqlConnection thisConnection = new SqlConnection(ConnectionString);
             SqlCommand thisCommand = thisConnection.CreateCommand();
             thisCommand.CommandType = CommandType.StoredProcedure;
-            thisCommand.CommandText = "CB_ADMIN_DASHBOARD";
+            thisCommand.CommandText = "CB_ADMIN_DASHBOARD_MatchTransId";
             thisCommand.Parameters.AddWithValue("@FromDate", fromDate.Value);
             thisCommand.Parameters.AddWithValue("@ToDate", toDate.Value);
             thisCommand.Parameters.AddWithValue("@OperaterId", operatorType.Value);
@@ -93,17 +93,21 @@ namespace CrebitAdminPanelNew
             try
             {
                 string connString = "";
+                // delete the Uploaded Excel File after process
+                string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads/"));
+                foreach (string filePath in filePaths)
+                  File.Delete(filePath);
                 string strFileType = Path.GetExtension(templateExcel.FileName).ToLower();
                 string fileName = Path.GetFileName(templateExcel.PostedFile.FileName);
                 templateExcel.PostedFile.SaveAs(Server.MapPath("~/Uploads/" + fileName));
-                string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads/"));
+               
                 if (strFileType.Trim() == ".xls")
                 {
-                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filePaths[(filePaths.Length) - 1] + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filePaths[0] + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
                 }
                 else if (strFileType.Trim() == ".xlsx")
                 {
-                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePaths[(filePaths.Length) - 1] + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePaths[0] + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
                 }
                 
                 string query = "SELECT [OperaterName],[Date],[ApiTransactionId] FROM [Sheet1$]";
@@ -139,15 +143,13 @@ namespace CrebitAdminPanelNew
                     }
 
                     // show UnMatched Data 
-                    foreach (var dt in excelDic)
+                    foreach (var dt in findDic)
                     {
                         htmlStr += "<tr><td>" + dt.Value.OperaterName + "</td><td>" + dt.Value.Date + "</td><td>" + dt.Value.ApiTransactionId + "</td><tr>";
 
                     }
 
-                    // delete the Uploaded Excel File after process
-                    //foreach (string filePath in filePaths)
-                      //  File.Delete(filePath);
+                    
         
                 }
             }

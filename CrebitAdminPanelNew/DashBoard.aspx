@@ -71,12 +71,13 @@
          <%--Selction Controls --%>
              <div class="input-group" style="width:90%;padding-left: 10%;padding-right: 5%;">
                   <div class="input-group-addon" >From Date</div>
-                               <input id="fromDate" type="text"  placeholder="Select from date" runat="server">
+                               <input id="fromDate" type="text"  placeholder="Select from date" runat="server" required/>
                  <div class="input-group-addon">To Date </div>
-                                <input type="text"  id="toDate" placeholder="Select to date" runat="server">            
+                                <input type="text"  id="toDate" placeholder="Select to date" runat="server" required/>            
                                 <div class="input-group-addon " >OperatorType </div>
                <select   id="operatorType" runat="Server">
-                            <option value="10">Airtel Landline	</option>
+                    <option value="-1">---Select---	</option>        
+                    <option value="10">Airtel Landline	</option>
                             <option value="11">Airtel	</option>
                             <option value="12">Cellone	</option>
                             <option value="13">Idea	</option>
