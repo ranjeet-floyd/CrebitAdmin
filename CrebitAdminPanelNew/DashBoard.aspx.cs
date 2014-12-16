@@ -80,40 +80,76 @@ namespace CrebitAdminPanelNew
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 DataRowCollection drcDB = ds.Tables[0].Rows;
-                //listDB = new List<DBDataVar>();
-
                 CrebitDbDic = new Dictionary<string, DBDataVar>();
-              
                 //Getting Data From DataBase and Putting it in CrebitDb Dictionary , HashSet_DB,HashSet_collection 
                 foreach (DataRow item in drcDB)
                 {
                     CrebitDbDic[item["ApiTransactionId"].ToString()] = new DBDataVar() { OperaterName = Convert.ToString(item["OperaterName"]).Trim(), Date = Convert.ToDateTime(item["Date"]), ApiTransactionId = Convert.ToString(item["ApiTransactionId"]) };
-                    _API_HashSet_DB.Add(Convert.ToString (item["ApiTransactionId"]));
+                    _API_HashSet_DB.Add(Convert.ToString(item["ApiTransactionId"]));
                     _API_HashSet_Collection.Add(Convert.ToString(item["ApiTransactionId"]));
                 }
             }
+           
+            
+            
+            
             try
             {
-                string connString = "";
+
+                HttpPostedFile file = templateExcel.PostedFile;
+                string excelConnectionString = string.Empty;
                 // delete the Uploaded Excel File after process
-                string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploads/"));
-                foreach (string filePath in filePaths)
-                  File.Delete(filePath);
-                string strFileType = Path.GetExtension(templateExcel.FileName).ToLower();
-                string fileName = Path.GetFileName(templateExcel.PostedFile.FileName);
-                templateExcel.PostedFile.SaveAs(Server.MapPath("~/Uploads/" + fileName));
-               
-                if (strFileType.Trim() == ".xls")
+                string filePaths = Server.MapPath("App_Data");
+
+               //Empty Directory
+                if (Directory.Exists(filePaths))
+                    {
+                        System.IO.DirectoryInfo downloadedMessageInfo = new DirectoryInfo(filePaths);
+
+                        foreach (FileInfo files in downloadedMessageInfo.GetFiles())
+                        {
+                            files.Delete();
+                        }
+                        foreach (DirectoryInfo dir in downloadedMessageInfo.GetDirectories())
+                        {
+                            dir.Delete(true);
+                        }
+                    
+                    }
+                string fileExtension = System.IO.Path.GetExtension(file.FileName);
+
+                if (fileExtension == ".xls" || fileExtension == ".xlsx")
                 {
-                    connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + filePaths[0] + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                }
-                else if (strFileType.Trim() == ".xlsx")
-                {
-                    connString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + filePaths[0] + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                }
-                
-                string query = "SELECT [OperaterName],[Date],[ApiTransactionId] FROM [Sheet1$]";
-                using (OleDbConnection conn = new OleDbConnection(connString))
+                    if (Directory.Exists(filePaths))
+                    {
+                        EmptyDir(filePaths); //clean directory
+                        string fileName = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss") + "_" + file.FileName;
+                        file.SaveAs(filePaths + "//" + fileName);
+                        //SaveDataToDB(filePaths + "//" + fileName, fileExtension);
+                        string fileLocation = filePaths + "//" + fileName;
+
+
+                        if (fileExtension == ".xls" || fileExtension == ".xlsx")
+                        {
+
+                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                            //connection String for xls file format.
+                            if (fileExtension == ".xls")
+                            {
+                                excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
+                            }
+                            //connection String for xlsx file format.
+                            else if (fileExtension == ".xlsx")
+                            {
+                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                            }
+                        }
+
+                    } else throw new Exception("App_Data Folder do not Exist. Please create.");
+                } else throw new Exception("Only .xls and .xlsx formats are acceptable.");
+                        
+                        string query = "SELECT [OperaterName],[Date],[ApiTransactionId] FROM [Sheet1$]";
+                using (OleDbConnection conn = new OleDbConnection(excelConnectionString))
                 {
                     if (conn.State == ConnectionState.Closed)
                         conn.Open();
@@ -124,6 +160,7 @@ namespace CrebitAdminPanelNew
                     DataRowCollection drc = dsExcel.Tables[0].Rows;
                     Dictionary<String, excelDataVar> excelDic = new Dictionary<string, excelDataVar>();
                     HashSet<string> _API_HashSet_Excel = new HashSet<string>();
+
                     //Getting Data From Excel file and Putting it in Excel Dictionary , HashSet_Excel,HashSet_collection 
                     foreach (DataRow item in drc)
                     {
@@ -133,36 +170,85 @@ namespace CrebitAdminPanelNew
                     }
                     // Get common TransId b/w DB_Data and Excel Sheet Data
                     _API_HashSet_DB.IntersectWith(_API_HashSet_Excel);
-                    //Get Disint Data B/w DB_Data and Excel Sheet Data
+                    //Get distinct Data B/w DB_Data and Excel Sheet Data
                     _API_HashSet_Collection.ExceptWith(_API_HashSet_DB);
+
 
                     //Getting Data using  key (KeyTrans) and putting it into dictionary
                     foreach (String keyTrans in _API_HashSet_Collection)
                     {
-                        if(excelDic.ContainsKey(keyTrans))
-                          findDic[keyTrans] = new finalDataVar() { OperaterName =excelDic[keyTrans].OperaterName , Date = excelDic[keyTrans].Date, ApiTransactionId = excelDic[keyTrans].ApiTransactionId };
-                        else if(CrebitDbDic.ContainsKey(keyTrans))
-                           findDic[keyTrans] = new finalDataVar() { OperaterName =CrebitDbDic[keyTrans].OperaterName , Date = CrebitDbDic[keyTrans].Date, ApiTransactionId = CrebitDbDic[keyTrans].ApiTransactionId };
+                        if (excelDic.ContainsKey(keyTrans))
+                            findDic[keyTrans] = new finalDataVar() { OperaterName = excelDic[keyTrans].OperaterName, Date = excelDic[keyTrans].Date, ApiTransactionId = "ExcelTransId::" + excelDic[keyTrans].ApiTransactionId };
+                        else if (CrebitDbDic.ContainsKey(keyTrans))
+                            findDic[keyTrans] = new finalDataVar() { OperaterName = CrebitDbDic[keyTrans].OperaterName, Date = CrebitDbDic[keyTrans].Date, ApiTransactionId = "CrenitDbTransId::" + CrebitDbDic[keyTrans].ApiTransactionId };
                     }
 
-                    // retrive Unmatched Data from dictionarySSSS
+                    // retrive Unmatched Data from dictionary
                     foreach (var dt in findDic)
                     {
                         htmlStr += "<tr><td>" + dt.Value.OperaterName + "</td><td>" + dt.Value.Date + "</td><td>" + dt.Value.ApiTransactionId + "</td><tr>";
 
                     }
 
-                    
-        
+
+
                 }
             }
-            catch (Exception ex) { ExcelTypemsg.Text = "Selected Excel File Is not in Valid Format "; }
+            catch (Exception ex) { ExcelTypemsg.Text = "" + ex.Message; }
             table_data.InnerHtml = htmlStr;
-            
 
+
+        }
+
+
+        //Empty Dir.
+        private void EmptyDir(string dirPath)
+        {
+            System.IO.DirectoryInfo downloadedMessageInfo = new DirectoryInfo(dirPath);
+
+            foreach (FileInfo file in downloadedMessageInfo.GetFiles())
+            {
+                file.Delete();
             }
+            foreach (DirectoryInfo dir in downloadedMessageInfo.GetDirectories())
+            {
+                dir.Delete(true);
+            }
+        }
 
-       
+        //private void DumpExcel(DataTable tbl)
+        //{
+        //    using (ExcelPackage pck = new ExcelPackage())
+        //    {
+        //        //Create the worksheet
+        //        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Demo");
+
+        //        //Load the datatable into the sheet, starting from cell A1. Print the column names on row 1
+        //        ws.Cells["A1"].LoadFromDataTable(tbl, true);
+
+        //        //Format the header for column 1-3
+        //        using (ExcelRange rng = ws.Cells["A1:C1"])
+        //        {
+        //            rng.Style.Font.Bold = true;
+        //            rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
+        //            rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
+        //            rng.Style.Font.Color.SetColor(Color.White);
+        //        }
+
+        //        //Example how to Format Column 1 as numeric 
+        //        using (ExcelRange col = ws.Cells[2, 1, 2 + tbl.Rows.Count, 1])
+        //        {
+        //            col.Style.Numberformat.Format = "#,##0.00";
+        //            col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
+        //        }
+
+        //        //Write it back to the client
+        //        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+        //        Response.AddHeader("content-disposition", "attachment;  filename=ExcelDemo.xlsx");
+        //        Response.BinaryWrite(pck.GetAsByteArray());
+        //    }
+        //}
+
     }
 }
 
