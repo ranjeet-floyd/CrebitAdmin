@@ -12,6 +12,9 @@ using System.Configuration;
 using System.Data.SqlClient;
 using db;
 using CrebitAdminPanelNew.Model;
+using OfficeOpenXml;
+using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel; 
 namespace CrebitAdminPanelNew
 {
     public partial class DashBoard : System.Web.UI.Page
@@ -91,8 +94,6 @@ namespace CrebitAdminPanelNew
             }
            
             
-            
-            
             try
             {
 
@@ -131,8 +132,8 @@ namespace CrebitAdminPanelNew
 
                         if (fileExtension == ".xls" || fileExtension == ".xlsx")
                         {
-
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                            //excelConnectionString = "Driver={Microsoft Excel Driver (*.xls, *.xlsx, *.xlsm, *.xlsb)};DBQ=" + fileName + ";";Excel 12.0 
+                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0 Xml;HDR=Yes;IMEX=2\"";
                             //connection String for xls file format.
                             if (fileExtension == ".xls")
                             {
@@ -141,7 +142,7 @@ namespace CrebitAdminPanelNew
                             //connection String for xlsx file format.
                             else if (fileExtension == ".xlsx")
                             {
-                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                                excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + fileLocation + ";Extended Properties=\"Excel 12.0 Xml;HDR=Yes;IMEX=2\"";
                             }
                         }
 
@@ -178,9 +179,9 @@ namespace CrebitAdminPanelNew
                     foreach (String keyTrans in _API_HashSet_Collection)
                     {
                         if (excelDic.ContainsKey(keyTrans))
-                            findDic[keyTrans] = new finalDataVar() { OperaterName = excelDic[keyTrans].OperaterName, Date = excelDic[keyTrans].Date, ApiTransactionId = "ExcelTransId::" + excelDic[keyTrans].ApiTransactionId };
+                            findDic[keyTrans] = new finalDataVar() { OperaterName = excelDic[keyTrans].OperaterName, Date = excelDic[keyTrans].Date, ApiTransactionId = "CyberPlate::" + excelDic[keyTrans].ApiTransactionId };
                         else if (CrebitDbDic.ContainsKey(keyTrans))
-                            findDic[keyTrans] = new finalDataVar() { OperaterName = CrebitDbDic[keyTrans].OperaterName, Date = CrebitDbDic[keyTrans].Date, ApiTransactionId = "CrenitDbTransId::" + CrebitDbDic[keyTrans].ApiTransactionId };
+                            findDic[keyTrans] = new finalDataVar() { OperaterName = CrebitDbDic[keyTrans].OperaterName, Date = CrebitDbDic[keyTrans].Date, ApiTransactionId = "Crebit::" + CrebitDbDic[keyTrans].ApiTransactionId };
                     }
 
                     // retrive Unmatched Data from dictionary
@@ -197,7 +198,7 @@ namespace CrebitAdminPanelNew
             catch (Exception ex) { ExcelTypemsg.Text = "" + ex.Message; }
             table_data.InnerHtml = htmlStr;
 
-
+            
         }
 
 
@@ -216,38 +217,9 @@ namespace CrebitAdminPanelNew
             }
         }
 
-        //private void DumpExcel(DataTable tbl)
-        //{
-        //    using (ExcelPackage pck = new ExcelPackage())
-        //    {
-        //        //Create the worksheet
-        //        ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Demo");
 
-        //        //Load the datatable into the sheet, starting from cell A1. Print the column names on row 1
-        //        ws.Cells["A1"].LoadFromDataTable(tbl, true);
-
-        //        //Format the header for column 1-3
-        //        using (ExcelRange rng = ws.Cells["A1:C1"])
-        //        {
-        //            rng.Style.Font.Bold = true;
-        //            rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
-        //            rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
-        //            rng.Style.Font.Color.SetColor(Color.White);
-        //        }
-
-        //        //Example how to Format Column 1 as numeric 
-        //        using (ExcelRange col = ws.Cells[2, 1, 2 + tbl.Rows.Count, 1])
-        //        {
-        //            col.Style.Numberformat.Format = "#,##0.00";
-        //            col.Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
-        //        }
-
-        //        //Write it back to the client
-        //        Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-        //        Response.AddHeader("content-disposition", "attachment;  filename=ExcelDemo.xlsx");
-        //        Response.BinaryWrite(pck.GetAsByteArray());
-        //    }
-        //}
+      
+        
 
     }
 }

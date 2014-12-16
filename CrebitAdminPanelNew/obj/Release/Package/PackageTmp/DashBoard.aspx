@@ -19,10 +19,8 @@
             display: none;
         }
     </style>
-
-    <link href="css/jquery-ui.css" rel="stylesheet" />
-    <script src="js/jquery.js"></script>
-    <script src="jquery.min.js"></script>
+    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script src="../js/jquery.js" type="text/javascript"></script>
     <script src="../js/jquery-ui.custom.js" type="text/javascript"></script>
     <script src="Scripts/cookies.js" type="text/javascript"></script>
     <script type="text/javascript">
@@ -33,7 +31,6 @@
             $("#toDate").val('');
         });
         </script>
-    
 </head>
 <body>
      <%--Navigation  Bar --%>
@@ -74,13 +71,13 @@
          <%--Selction Controls --%>
              <div class="input-group" style="width:90%;padding-left: 10%;padding-right: 5%;">
                   <div class="input-group-addon" >From Date</div>
-                               <input id="fromDate" type="text" style="height:50px;" placeholder="---From Date---" runat="server" required/>
-                 <div class="input-group-addon">To Date </div>
-                               <input type="text"  id="toDate" style="height:50px;" placeholder=" ---To Date---" runat="server" required/>
-                               <div class="input-group-addon " >OperatorType </div>
-               <select   id="operatorType" style="height:50px;" runat="Server">
-                     <option value="-1" >---Select---	</option>
-                            <option value="10">Airtel Landline	</option>
+                               <input id="fromDate" type="text"  placeholder="Select from date" runat="server" required/>
+                 <div class="input-group-addon" style>To Date </div>
+                                <input type="text"  id="toDate" placeholder="Select to date" runat="server" required/>            
+                                <div class="input-group-addon " >OperatorType </div>
+               <select   id="operatorType" runat="Server">
+                    <option value="-1">---Select---	</option>        
+                    <option value="10">Airtel Landline	</option>
                             <option value="11">Airtel	</option>
                             <option value="12">Cellone	</option>
                             <option value="13">Idea	</option>
@@ -100,7 +97,7 @@
                             <option value="28">MTS	</option>
                             <option value="29">Reliance(CDMA)</option>
                             <option value="200">Reliance(GSM)</option>
-                            <option value="201">T24(Flexi)	</option>
+                            <option value="2011">T24(Flexi)	</option>
                             <option value="202">T24(Special)</option>
                             <option value="203">Tata Docomo(Flexi)	</option>
                             <option value="204">Tata Docomo(Special)</option>
@@ -137,17 +134,13 @@
                             <option value="1300">Money Transfer	</option>
                             
                         </select>
-                       <div class="input-group-addon " style="width:5px">
-                       
-                       <asp:FileUpload ID="templateExcel" runat="server" /> 
-
-                       </div>
+                       <div class="input-group-addon " style="width:5px"><asp:FileUpload ID="templateExcel" runat="server" /> </div>
              
              <div class="input-group-addon"><asp:Button Text="Matcher" class="form-control btn-primary" runat="server" ID="bqtnFilter" OnClick="btnMatcher_Click"  /></div>
             
              
              </div>
-         <div><asp:Label Text="" class="form-control"  ID="ExcelTypemsg" style="background-color:#fff;border:0px; color:red; width:100%; padding-left: 62%;" runat="server"/></div>
+         <div><asp:Label Text="" class="form-control"  ID="ExcelTypemsg" style="background-color:#fff;border:0px; color:red; width:100%; padding-left: 68%;" runat="server"/></div>
          <br/><br/>
        <%--Table to Show the UnMatch TransId--%>
             <div id="DashBoard-details">

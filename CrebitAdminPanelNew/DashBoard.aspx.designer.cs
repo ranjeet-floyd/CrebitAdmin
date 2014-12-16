@@ -22,6 +22,51 @@ namespace CrebitAdminPanelNew {
         protected global::System.Web.UI.HtmlControls.HtmlForm dashBoardForm;
         
         /// <summary>
+        /// userType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label userType;
+        
+        /// <summary>
+        /// userTypeList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlSelect userTypeList;
+        
+        /// <summary>
+        /// btnUserCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputButton btnUserCount;
+        
+        /// <summary>
+        /// entCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label entCount;
+        
+        /// <summary>
+        /// perCount control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label perCount;
+        
+        /// <summary>
         /// fromDate control.
         /// </summary>
         /// <remarks>

@@ -30,6 +30,25 @@
             $("#fromDate").val('');
             $("#toDate").val('');
         });
+
+       //Ajax Call to Get the Number Of User
+        function GetUserCount() {
+            $.ajax({
+                type: "POST",
+                url: "Admin/GetUserCount",
+                data: '{UserType: ' + $("#userTypeList").val() + '}',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) 
+                {
+                    if ($("#userTypeList").val() == 1) { $("#entCount").val() = "" + response["totalCount"];}
+                    else $("#perCount").val() = "" + response["totalCount"];
+                },
+                failure: function () { alert(""); },
+                error: function () { alert("Error Occuer"); }
+            });
+        }
+
         </script>
 </head>
 <body>
@@ -66,16 +85,62 @@
                 </div>
             </div>
         </div>
-    <br/><br/><br/><br/>
+         <br/>
+         <%--Number Of User Count Control--%>
+            <div class="dashboard-middle">
+            <div class="navbar-collapse collapse subData">
+               
+                <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid;border-width: 1px; border-color:#ededf1;padding:10px; padding-left:20px;padding-right:20px ">
+                    <li>
+                        <asp:Label class="form-control" ID="userType" style="background-color:#ededf1"   Text="UserType" runat="server"> </asp:Label>
+                    </li>
+                         <li>
+                        <select class=" form-control" id="userTypeList"  runat="server">
+                            <option value="1">Enterprise</option>
+                            <option value="2">Personal</option>
+                        </select>
+                    </li>
+                    <li>
+                        <input id="btnUserCount" type="button" value="UserCount" onclick = "GetUserCount()" runat="server" />
+                        <%--<asp:Button Text="UserCount" class="form-control btn-primary" runat="server" ID="userCount" />--%>
+                    </li>
+
+                          </ul>
+            
+
+         <%--UserCount Table--%>
+                        <table class="table table-striped" style="border: 1px solid black; width: 15%; margin-left: 50%; margin-right: 5%">
+
+                            <thead>
+                                <tr class="TableColor">
+                                    <th># </th>
+                                    <th>Count</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td style="background-color: #000; color: #fff;">Enterprise</td>
+                                <td><asp:label ID="entCount" Text="-" runat="server"/></td>
+                            </tr>
+                            <tr>
+                                <td class="TableColor">Personal</td>
+                                <td ><asp:label ID="perCount" Text="-" runat="server"/></td>
+                            </tr>
+
+                        </table>
+</div>
+</div>
+
+
+         <br/><br/>
          
          <%--Selction Controls --%>
              <div class="input-group" style="width:90%;padding-left: 10%;padding-right: 5%;">
-                  <div class="input-group-addon" >From Date</div>
-                               <input id="fromDate" type="text"  placeholder="Select from date" runat="server" required/>
-                 <div class="input-group-addon">To Date </div>
-                                <input type="text"  id="toDate" placeholder="Select to date" runat="server" required/>            
+                  <div class="input-group-addon"  >From Date</div>
+                               <input id="fromDate" type="text" style="height:50px;"  placeholder="Select from date" runat="server" required/>
+                 <div class="input-group-addon" >To Date </div>
+                                <input type="text"  id="toDate"  style="height:50px;" placeholder="Select to date" runat="server" required/>            
                                 <div class="input-group-addon " >OperatorType </div>
-               <select   id="operatorType" runat="Server">
+               <select   id="operatorType" runat="Server" style="height:50px;">
                     <option value="-1">---Select---	</option>        
                     <option value="10">Airtel Landline	</option>
                             <option value="11">Airtel	</option>
@@ -97,7 +162,7 @@
                             <option value="28">MTS	</option>
                             <option value="29">Reliance(CDMA)</option>
                             <option value="200">Reliance(GSM)</option>
-                            <option value="2011">T24(Flexi)	</option>
+                            <option value="201">T24(Flexi)	</option>
                             <option value="202">T24(Special)</option>
                             <option value="203">Tata Docomo(Flexi)	</option>
                             <option value="204">Tata Docomo(Special)</option>
@@ -139,9 +204,10 @@
              <div class="input-group-addon"><asp:Button Text="Matcher" class="form-control btn-primary" runat="server" ID="bqtnFilter" OnClick="btnMatcher_Click"  /></div>
             
              
-             </div>
+          </div>  
+         <%--Label Control TO Show Exception--%>
          <div><asp:Label Text="" class="form-control"  ID="ExcelTypemsg" style="background-color:#fff;border:0px; color:red; width:100%; padding-left: 68%;" runat="server"/></div>
-         <br/><br/>
+          <br/><br/>
        <%--Table to Show the UnMatch TransId--%>
             <div id="DashBoard-details">
                 <p id="dashBoard" class="space"></p>
@@ -159,8 +225,8 @@
                     <thead>
                         <tr class="TableColor">
                             <th># </th>
-                            <th>LocalTransactionId</th>
-                            <th>TemplateTransactionId</th>
+                            <th>Date</th>
+                            <th>MisMatchTransactionId</th>
                             </tr>
                     </thead>
 
