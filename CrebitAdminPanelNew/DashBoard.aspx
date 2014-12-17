@@ -31,23 +31,42 @@
             $("#toDate").val('');
         });
 
-       //Ajax Call to Get the Number Of User
+        //Ajax Call to Get the Number Of User
+        
+
+
+
+
         function GetUserCount() {
-            $.ajax({
-                type: "POST",
-                url: "Admin/GetUserCount",
-                data: '{UserType: ' + $("#userTypeList").val() + '}',
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) 
-                {
-                    if ($("#userTypeList").val() == 1) { $("#entCount").val() = "" + response["totalCount"];}
-                    else $("#perCount").val() = "" + response["totalCount"];
-                },
-                failure: function () { alert(""); },
-                error: function () { alert("Error Occuer"); }
-            });
+
+            var dataJSON = {};
+            dataJSON.UserType = $("#userTypeList").val();
+            AjaxCall("POST", "/dhs/getMSEBCusDetails", dataJSON, Onsuccess);
+            return false;
+            //$.ajax({
+            //    type: "POST",
+            //    url: 'api/UserCount',
+            //    data: '{UserType: ' + $("#userTypeList").val() + '}',
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: function (response) 
+            //    {
+            //        if ($('#userTypeList').val() == 1) { $('#entCount').val() = '' + response['totalCount'];}
+            //        else $('#perCount').val() = '' + response['totalCount'];
+            //    },
+            //    failure: function () { alert(''); },
+            //    error: function () { alert('Error Occuer'); }
+            //});
         }
+        function Onsuccess(resObj) {
+            try {
+                if (resObj != null & resObj != "") {
+                    if ($('#userTypeList').val() == 1) { $('#entCount').val() = '' + response['totalCount']; }
+                    else $('#perCount').val() = '' + response['totalCount'];
+                }
+            } catch (ex) { }
+        }
+
 
         </script>
 </head>
