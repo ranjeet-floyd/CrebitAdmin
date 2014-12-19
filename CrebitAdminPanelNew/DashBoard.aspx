@@ -19,10 +19,11 @@
             display: none;
         }
     </style>
-    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <link href="css/jquery-ui.css" rel="stylesheet" />
     <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.custom.js"></script>
     <script src="js/modernizr.js"></script>
+    
     <%--<script src="Scripts/cookies.js" type="text/javascript"></script>--%>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -56,7 +57,7 @@
                 dataType: 'json',
                 success: function (response, httpObj) {
                     if (httpObj == 'success') {
-
+                        alert("----------------------------");
                         var html = "";
                         // var jsonString = eval('(' + response + ')');
                         if (callback && typeof (callback) === "function") {
@@ -80,27 +81,21 @@
                 }
             });
         }
-
         function onsuccess(resObj) {
             var html = "";
             
             try {
                 if (resObj != null & resObj != "") {
-                    alert("hello");
                     if ($('#userTypeList').val() == 1) { html = 'EnterPrise::' + resObj["totalCount"]; }
                     else { html = 'Personal::' + resObj['totalCount']; }
                 }
             } catch (ex) { }
             $('#myModal_2').modal('show');
-            
             //$("#model_msg_body").html(html);
             //$('#model_msg').modal('show');
-
         }
 
     </script>
-
-
 </head>
 <body>
     <%--Navigation  Bar --%>
@@ -145,7 +140,7 @@
                 <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid; border-width: 1px; border-color: #ededf1; padding: 10px; padding-left: 20px; padding-right: 20px">
                     <li>
                         <select class=" form-control" id="userTypeList" runat="server">
-                            <option value="o">---Select---</option>
+                            <option value="">---Select---</option>
                             <option value="1">Enterprise</option>
                             <option value="2">Personal</option>
                         </select>

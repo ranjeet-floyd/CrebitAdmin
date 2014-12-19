@@ -19,32 +19,72 @@
             display: none;
         }
     </style>
-    <link href="../css/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <script src="../js/jquery.js" type="text/javascript"></script>
-    <script src="../js/jquery-ui.custom.js" type="text/javascript"></script>
-    <script src="Scripts/cookies.js" type="text/javascript"></script>
-    <script type="text/javascript">
+    
+    <link href="css/jquery-ui.css" rel="stylesheet" />
+      <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.custom.js"></script>
+    <script src="js/modernizr.js"></script>
+
+  <%-- <script src="Scripts/cookies.js" type="text/javascript"></script>--%>
+   
+     <script type="text/javascript">
         $(document).ready(function () {
-            $("#fromDate").datepicker();
-            $("#toDate").datepicker();
             $("#utdate").datepicker();
-            $("#fromDate").val('');
-            $("#toDate").val('');
         });
 
-        //Ajax Call to Get the Number Of User
+        </script>
+        <%--Ajax Call to Get the Profit--%>
+    
+     <script type="text/javascript">
+         function ProfitCount() {
 
-        function GetUserCount() {
-
-            var dataJSON = {};
-            dataJSON.UserType = $("#userTypeList").val(); dataJSON.Date = $("#utdate").val(); dataJSON.UserName = $("#@UserName").val();
-            AjaxCall("POST", 'api/UserCount', dataJSON, Onsuccess);
-            return false;
-           
+             var datajson = {};
+             datajson.UserType = $("#userTypeList").val(); datajson.Date = $("#utdate").val(); datajson.UserName = $("#UserName").val();
+             ajaxcall("POST", '/api/UserProfit', datajson, Onsuccess);
+             return false;
         }
+
+        
+         //Ajax call for api
+         function ajaxCall(type, url, dataJSON, callback) {
+             $.ajax({
+                 type: type,//"POST",
+                 url: url,//"/dashboard/balanceUse", //
+                 async: true,
+                 data: JSON.stringify(dataJSON),
+                 contentType: 'application/json; charset=utf-8',
+                 dataType: 'json',
+                 success: function (response, httpObj) {
+                     if (httpObj == 'success') {
+
+                         var html = "";
+                         // var jsonString = eval('(' + response + ')');
+                         if (callback && typeof (callback) === "function") {
+                             callback(response);
+                         }
+                     }
+                     else
+                         alert("Error !! Check input data.");
+                     $("#loding_Model").hide();//hide loading image
+                 },
+                 error: function (httpObj, textStatus) {
+                     $("#loding_Model").hide();
+                     alert("Not Valid Entry !!");
+                     console.log("error");
+                     console.log("ResponseText" + httpObj.responseText);
+                     if (httpObj.status == 401) {
+                         //window.location.replace("/Login.htm");//dashboad page
+                     }
+
+                     // alert("Some Error Occured !. Please try again later.");
+                 }
+             });
+         }
+
         function Onsuccess(resObj) {
+            alert("Hello You Are In ");
             try {
-                if (resObj != null & resObj != "") {
+                    if (resObj != null & resObj != "") {
                     if ($('#userTypeList').val() == 1) { $('#labelEnt').val() = '' + response['totalCount']; }
                     else $('#labelEnt').val() = '' + response['totalCount'];
                 }
@@ -53,6 +93,77 @@
 
 
         </script>
+ 
+    
+        <script type="text/javascript">
+         function getusercount() {
+
+             var datajson = {};
+             datajson.usertype = $("#userTypeList").val(); datajson.date = $("#utdate").val();
+
+             ajaxcall("post", '/api/userProfit', datajson, onsuccess);
+
+             return false;
+         }
+
+         //Ajax call for api
+         function ajaxcall(type, url, dataJSON, callback) {
+             $.ajax({
+                 type: type,//"POST",
+                 url: url,//"/dashboard/balanceUse", //
+                 async: true,
+                 data: JSON.stringify(dataJSON),
+                 contentType: 'application/json; charset=utf-8',
+                 dataType: 'json',
+                 success: function (response, httpObj) {
+                     if (httpObj == 'success') {
+
+                         var html = "";
+                         // var jsonString = eval('(' + response + ')');
+                         if (callback && typeof (callback) === "function") {
+                             callback(response);
+                         }
+                     }
+                     else
+                         alert("Error !! Check input data.");
+                     $("#loding_Model").hide();//hide loading image
+                 },
+                 error: function (httpObj, textStatus) {
+                     $("#loding_Model").hide();
+                     alert("Not Valid Entry !!");
+                     console.log("error");
+                     console.log("ResponseText" + httpObj.responseText);
+                     if (httpObj.status == 401) {
+                         //window.location.replace("/Login.htm");//dashboad page
+                     }
+
+                     // alert("Some Error Occured !. Please try again later.");
+                 }
+             });
+         }
+
+         function onsuccess(resObj) {
+             var html = "";
+
+             try {
+                 if (resObj != null & resObj != "") {
+                     if ($('#userTypeList').val() == 1) { html = 'EnterPrise::' + resObj["totalCount"]; }
+                     else { html = 'Personal::' + resObj['totalCount']; }
+                 }
+             } catch (ex) { }
+             $('#myModal_2').modal('show');
+             //$("#model_msg_body").html(html);
+             //$('#model_msg').modal('show');
+         }
+
+    </script>
+
+
+
+
+
+
+
 </head>
 <body>
      <%--Navigation  Bar --%>
@@ -98,7 +209,7 @@
                 <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid;border-width: 1px; border-color:#ededf1;padding:10px; padding-left:20px;padding-right:20px ">
                   <li>
                         <select class=" form-control" id="userTypeList"  runat="server" >
-                            <option value="o">---Select---</option>
+                            <option value="">---Select---</option>
                             <option value="1">Enterprise</option>
                             <option value="2">Personal</option>
                         </select>
@@ -113,11 +224,11 @@
                     </li>
                          
                     <li>
-                        <input id="btnUserCount" type="button" class="form-control btn-primary"  data-toggle='modal' data-target='.status_model_2' value="UserCount" onclick = "GetUserCount()" runat="server" />
+                      <%--<input id="btnUserCount" type="button" class="form-control btn-primary"   value="UserCount" onclick = "ProfitCount()" runat="server" />--%>
                         <%--<asp:Button Text="UserCount" class="form-control btn-primary" runat="server" ID="userCount" />--%>
-                    </li>
-
-                          </ul>
+                      <button id="btnProfitCount" class="form-control btn-primary" value="UserCount" onclick="ProfitCount()">ProfitCount</button>
+                     </li>
+                </ul>
 </div>
 </div>
 
@@ -163,8 +274,9 @@
             <!-- Bootstrap core JavaScript
 	================================================== -->
         <!-- Placed at the end of the document so the pages load faster -->
-        <script src="bootstrap.min.js"></script>
-        <script src="docs.min.js"></script>
+        
+         <script src="js/docs.min.js"></script>
+         <script src="bootstrap.min.js"></script>
         <%--  <script src="dashboard.html.0.js"></script>--%>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
    <!-- <script src="ie10-viewport-bug-workaround.js"></script> -->

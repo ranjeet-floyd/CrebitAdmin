@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CrebitAdminPanelNew.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,17 @@ namespace CrebitAdminPanelNew.Controller
 {
     public class UserProfitController : ApiController
     {
+
+        public IHttpActionResult Post([FromBody]CP_Property UserType)
+        {
+            //DAS_Property das = new DAS_Property();
+            CP_Services das_service = new CP_Services();
+            CP_serviceReturnType cp_serviceReturnType = das_service.GetUserCount(UserType);
+            if (das_service._IsSuccess)
+            { return Ok(cp_serviceReturnType); }
+            else { return NotFound(); }
+        }
+
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
