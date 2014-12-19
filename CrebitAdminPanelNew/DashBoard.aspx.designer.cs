@@ -22,15 +22,6 @@ namespace CrebitAdminPanelNew {
         protected global::System.Web.UI.HtmlControls.HtmlForm dashBoardForm;
         
         /// <summary>
-        /// userType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label userType;
-        
-        /// <summary>
         /// userTypeList control.
         /// </summary>
         /// <remarks>
@@ -40,31 +31,13 @@ namespace CrebitAdminPanelNew {
         protected global::System.Web.UI.HtmlControls.HtmlSelect userTypeList;
         
         /// <summary>
-        /// btnUserCount control.
+        /// utdate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton btnUserCount;
-        
-        /// <summary>
-        /// entCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label entCount;
-        
-        /// <summary>
-        /// perCount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label perCount;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText utdate;
         
         /// <summary>
         /// fromDate control.
@@ -128,5 +101,23 @@ namespace CrebitAdminPanelNew {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl table_data;
+        
+        /// <summary>
+        /// labelEnt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelEnt;
+        
+        /// <summary>
+        /// labelPer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label labelPer;
     }
 }

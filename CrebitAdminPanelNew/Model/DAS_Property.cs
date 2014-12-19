@@ -8,7 +8,8 @@ namespace CrebitAdminRestApi.Model
     public class DAS_Property
     {
         //[JsonProperty("usertype")]
-        public string UserType { get; set; }
+        public int UserType { get; set; }
+        public string Date { get; set; }
 
     }
 

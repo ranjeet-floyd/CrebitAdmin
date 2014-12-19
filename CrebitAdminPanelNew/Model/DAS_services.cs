@@ -28,18 +28,19 @@ namespace CrebitAdminRestApi.Model
                 //thisCommand.CommandText = "CB_ADMIN_UserCount";
                 //thisCommand.Parameters.AddWithValue("@UserType", das_Property.UserType);
                 //ds = db.SelectAdaptQry(thisCommand);
-                 
-                SqlParameter[] param = new SqlParameter[1];
+                SqlParameter[] param = new SqlParameter[2];
                 param[0] = new SqlParameter("@UserType", das_Property.UserType);
-                      DataBase db = new DataBase();
-                      DataSet ds  = db.GetDataSet(this.SpName, param);
+                param[1] = new SqlParameter("@Date", String.IsNullOrEmpty( das_Property.Date)  ? Convert.DBNull : Convert.ToDateTime(das_Property.Date).Date);
+                DataBase db = new DataBase();
+                DataSet ds = db.GetDataSet(this.SpName, param);
+
                 if (ds != null)
                 {
-                    
+
                     DataRowCollection drc = ds.Tables[0].Rows;
                     foreach (DataRow item in drc)
                     {
-                        string dr = ds.ToString();
+                        string dr = "" + item["column1"].ToString();
                         das_serviceReturnType = new DAS_serviceReturnType() { totalCount = dr };
                     }
                 }

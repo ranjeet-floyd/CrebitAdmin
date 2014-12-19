@@ -106,6 +106,7 @@
                         <li><a id="a_refund" href="RefundRequest.aspx?u=<%=QueryString%>">RefundRequest </a></li>
                         <li><a id="a1" href="Transaction_Page.aspx?u=<%=QueryString%>">Transaction</a></li>
                         <li><a id="a_Dashboard" href="DashBoard.aspx?u=<%=QueryString%>">DashBoard</a></li>
+                       <li><a id="a_CpProfitSummary" href="CPprofitSummary.aspx?u=<%=QueryString%>">CPprofitSummary</a></li>
                         <li><a href="#">Profile</a></li>
                         <li><a href="Login.aspx">Logout</a></li>
                     </ul>
