@@ -1,23 +1,23 @@
 ﻿using CrebitAdminRestApi.Model;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace CrebitAdminPanelNew.Controller
 {
     public class UserCountController : ApiController
     {
-        //HttpRequestMessage req;
+        
         public IHttpActionResult Post([FromBody]DAS_Property UserType)
         {
+            
             //DAS_Property das = new DAS_Property();
             DAS_services das_service = new DAS_services();
             DAS_serviceReturnType das_serviceReturnType = das_service.GetUserCount(UserType);
             if (das_service._IsSuccess)
             {
                // return req.CreateResponse<DAS_serviceReturnType>(HttpStatusCode.OK, das_serviceReturnType);
-                return Ok<DAS_serviceReturnType>(das_serviceReturnType); 
+                return Content<DAS_serviceReturnType>(HttpStatusCode.OK, das_serviceReturnType);
             }
             else { return NotFound(); }
         }

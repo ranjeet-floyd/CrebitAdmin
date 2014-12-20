@@ -1,9 +1,6 @@
-﻿using CrebitAdminPanelNew.Model;
-using System;
+﻿using CrebitAdminRestApi.Model;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace CrebitAdminPanelNew.Controller
@@ -11,13 +8,15 @@ namespace CrebitAdminPanelNew.Controller
     public class UserProfitController : ApiController
     {
 
-        public IHttpActionResult Post([FromBody]CP_Property UserType)
+        public IHttpActionResult Post([FromBody]CP_Property cp_Property)
         {
             //DAS_Property das = new DAS_Property();
-            CP_Services das_service = new CP_Services();
-            CP_serviceReturnType cp_serviceReturnType = das_service.GetUserCount(UserType);
-            if (das_service._IsSuccess)
-            { return Ok(cp_serviceReturnType); }
+            CP_Services cp_service = new CP_Services();
+            CP_serviceReturnType cp_serviceReturnType = cp_service.GetProfitCount(cp_Property);
+            if (cp_service._IsSuccess)
+            {
+                return Content<CP_serviceReturnType>(HttpStatusCode.OK, cp_serviceReturnType);
+            }
             else { return NotFound(); }
         }
 
@@ -33,10 +32,10 @@ namespace CrebitAdminPanelNew.Controller
             return "value";
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST api/<controller>
+        //public void Post([FromBody]string value)
+        //{
+        //}
 
         // PUT api/<controller>/5
         public void Put(int id, [FromBody]string value)

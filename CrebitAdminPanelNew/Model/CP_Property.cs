@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CrebitAdminPanelNew.Model
+namespace CrebitAdminRestApi.Model
 {
     public class CP_Property
     {
@@ -16,7 +16,9 @@ namespace CrebitAdminPanelNew.Model
     {
 
         //[JsonProperty("usertype")]
-        public string totalCount { get; set; }
+        public double CyberPlateProfit { get; set; }
+        public double CyberPlateAdminProfit { get; set; }
+        public double CpTakenBal { get; set; }
 
     }
 }

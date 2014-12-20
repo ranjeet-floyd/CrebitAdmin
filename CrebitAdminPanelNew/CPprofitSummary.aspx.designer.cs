@@ -13,15 +13,6 @@ namespace CrebitAdminPanelNew {
     public partial class CPprofitSummary {
         
         /// <summary>
-        /// dashBoardForm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm dashBoardForm;
-        
-        /// <summary>
         /// userTypeList control.
         /// </summary>
         /// <remarks>

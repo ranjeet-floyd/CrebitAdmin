@@ -37,17 +37,16 @@
     <script type="text/javascript">
 
         function getusercount() {
-
-            var datajson = {};
-            datajson.usertype = $("#userTypeList").val(); datajson.date = $("#utdate").val();
-
-            ajaxcall("post", '/api/usercount', datajson, onsuccess);
-
+            var dataJSON = {};
+            dataJSON.UserType = $("#userTypeList").val(); dataJSON.Date = $("#utdate").val();
+            AjaxCall("POST", "/api/UserCount", dataJSON, onSuccess);//call api
             return false;
+            //event.preventDefault();
         }
 
+        
         //Ajax call for api
-        function ajaxcall(type, url, dataJSON, callback) {
+        function AjaxCall(type, url, dataJSON, callback) {
             $.ajax({
                 type: type,//"POST",
                 url: url,//"/dashboard/balanceUse", //
@@ -57,42 +56,42 @@
                 dataType: 'json',
                 success: function (response, httpObj) {
                     if (httpObj == 'success') {
-                        alert("----------------------------");
+
                         var html = "";
                         // var jsonString = eval('(' + response + ')');
                         if (callback && typeof (callback) === "function") {
                             callback(response);
+
                         }
                     }
                     else
                         alert("Error !! Check input data.");
-                    $("#loding_Model").hide();//hide loading image
+                    //$("#loding_Model").hide();//hide loading image
                 },
                 error: function (httpObj, textStatus) {
-                    $("#loding_Model").hide();
+                  //  $("#loding_Model").hide();
                     alert("Not Valid Entry !!");
                     console.log("error");
                     console.log("ResponseText" + httpObj.responseText);
                     if (httpObj.status == 401) {
-                        //window.location.replace("/Login.htm");//dashboad page
+                        window.location.replace("/Login.aspx");//dashboad page
                     }
 
                     // alert("Some Error Occured !. Please try again later.");
                 }
             });
         }
-        function onsuccess(resObj) {
+
+        function onSuccess(resObj) {
             var html = "";
-            
             try {
                 if (resObj != null & resObj != "") {
-                    if ($('#userTypeList').val() == 1) { html = 'EnterPrise::' + resObj["totalCount"]; }
-                    else { html = 'Personal::' + resObj['totalCount']; }
+                    if ($("#userTypeList").val() == 1) { html = "EnterPrise::"+resObj['totalCount']; }
+                    else { html = "Personal::" +resObj['totalCount'];}
                 }
             } catch (ex) { }
-            $('#myModal_2').modal('show');
-            //$("#model_msg_body").html(html);
-            //$('#model_msg').modal('show');
+            $("#model_msg_body").html(html);
+            $('#model_msg').modal('show');
         }
 
     </script>
@@ -133,38 +132,15 @@
             </div>
         </div>
         <br />
-        <%--Number Of User Count Control--%>
-        <div class="dashboard-middle">
-            <div class="navbar-collapse collapse subData">
-
-                <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid; border-width: 1px; border-color: #ededf1; padding: 10px; padding-left: 20px; padding-right: 20px">
-                    <li>
-                        <select class=" form-control" id="userTypeList" runat="server">
-                            <option value="">---Select---</option>
-                            <option value="1">Enterprise</option>
-                            <option value="2">Personal</option>
-                        </select>
-                    </li>
-                    <li>
-                        <%--<div class="input-group-addon"  >Date</div>--%>
-                        <input id="utdate" type="text" class=" form-control" style="width: 100px" placeholder="date" runat="server">
-                    </li>
-
-                    <li>
-
-                        <%--<input id="btnUserCount" type="button" class="form-control btn-primary"  data-toggle='modal' data-target='.status_model_2' value="UserCount" onclick = "GetUserCount()" runat="server" />--%>
-                        <%-- <input id="btnUserCount" type="button" class="form-control btn-primary" value="UserCount"  onclick="GetUserCount()" />--%>
-                        <button id="btnUserCount" class="form-control btn-primary" value="UserCount" onclick="getusercount()">UserCount</button>
-
-                    </li>
-
-                </ul>
-            </div>
-        </div>
+        
+    
+            <%--Number Of User Count Control--%>
+     
 
 
         <br />
         <br />
+         
 
         <%--Selction Controls --%>
         <div class="input-group" style="width: 90%; padding-left: 10%; padding-right: 5%;">
@@ -246,7 +222,36 @@
             <asp:Label Text="" class="form-control" ID="ExcelTypemsg" Style="background-color: #fff; border: 0px; color: red; width: 100%; padding-left: 68%;" runat="server" /></div>
         <br />
         <br />
-        <%--Table to Show the UnMatch TransId--%>
+     </form>
+    
+     <div class="dashboard-middle">
+            <div class="navbar-collapse collapse subData">
+
+                <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid; border-width: 1px; border-color: #ededf1; padding: 10px; padding-left: 20px; padding-right: 20px">
+                    <li>
+                        <select class=" form-control" id="userTypeList" >
+                            <option value="">---Select---</option>
+                            <option value="1">Enterprise</option>
+                            <option value="2">Personal</option>
+                        </select>
+                    </li>
+                    <li>
+                        <%--<div class="input-group-addon"  >Date</div>--%>
+                        <input id="utdate" type="text" class=" form-control" style="width: 100px" placeholder="date" />
+                    </li>
+                    <li>
+                        <button id="btnUserCount" class="form-control btn-primary" value="UserCount" onclick="getusercount()">UserCount</button>
+                         </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+    
+    
+    
+       <%--Table to Show the UnMatch TransId--%>
         <div id="DashBoard-details">
             <p id="dashBoard" class="space"></p>
             <div class="navbar navbar-inverse " role="navigation">
@@ -326,6 +331,6 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
    <!-- <script src="ie10-viewport-bug-workaround.js"></script> -->
 
-    </form>
+ 
 </body>
 </html>

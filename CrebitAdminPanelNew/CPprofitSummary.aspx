@@ -38,42 +38,41 @@
      <script type="text/javascript">
          function ProfitCount() {
 
-             var datajson = {};
-             datajson.UserType = $("#userTypeList").val(); datajson.Date = $("#utdate").val(); datajson.UserName = $("#UserName").val();
-             ajaxcall("POST", '/api/UserProfit', datajson, Onsuccess);
+             var dataJSON = {};
+             dataJSON.UserType = $("#userTypeList").val(); dataJSON.Date = $("#utdate").val(); dataJSON.UserName = $("#UserName").val();
+             AjaxCall("POST", "/api/UserProfit", dataJSON, Onsuccess);//call api
              return false;
         }
-
         
          //Ajax call for api
-         function ajaxCall(type, url, dataJSON, callback) {
+         function AjaxCall(type, url, dataJSON, callback) {
              $.ajax({
                  type: type,//"POST",
-                 url: url,//"/dashboard/balanceUse", //
+                 url: url,//"/api/UserProfit", //
                  async: true,
                  data: JSON.stringify(dataJSON),
                  contentType: 'application/json; charset=utf-8',
                  dataType: 'json',
                  success: function (response, httpObj) {
                      if (httpObj == 'success') {
-
                          var html = "";
                          // var jsonString = eval('(' + response + ')');
                          if (callback && typeof (callback) === "function") {
                              callback(response);
+
                          }
                      }
                      else
                          alert("Error !! Check input data.");
-                     $("#loding_Model").hide();//hide loading image
+                     //$("#loding_Model").hide();//hide loading image
                  },
                  error: function (httpObj, textStatus) {
-                     $("#loding_Model").hide();
+                     //  $("#loding_Model").hide();
                      alert("Not Valid Entry !!");
                      console.log("error");
                      console.log("ResponseText" + httpObj.responseText);
                      if (httpObj.status == 401) {
-                         //window.location.replace("/Login.htm");//dashboad page
+                         window.location.replace("/Login.aspx");//dashboad page
                      }
 
                      // alert("Some Error Occured !. Please try again later.");
@@ -82,92 +81,28 @@
          }
 
         function Onsuccess(resObj) {
-            alert("Hello You Are In ");
             try {
-                    if (resObj != null & resObj != "") {
-                    if ($('#userTypeList').val() == 1) { $('#labelEnt').val() = '' + response['totalCount']; }
-                    else $('#labelEnt').val() = '' + response['totalCount'];
+                var html="";
+                     if (resObj != null & resObj != "") {
+                          
+                         //if ($('#userTypeList').val() == 1) 
+                         html = "CyberPlateProfit ::" + resObj['CyberPlateProfit'];
+                         html += "CyberPlateAdminProfit::" + resObj['CyberPlateAdminProfit'];
+                         html += "TakenBal ::" + resObj['CpTakenBal'];
                 }
             } catch (ex) { }
+            $("#model_msg_body").html(html);
+            $('#model_msg').modal('show');
+
         }
 
 
         </script>
  
-    
-        <script type="text/javascript">
-         function getusercount() {
-
-             var datajson = {};
-             datajson.usertype = $("#userTypeList").val(); datajson.date = $("#utdate").val();
-
-             ajaxcall("post", '/api/userProfit', datajson, onsuccess);
-
-             return false;
-         }
-
-         //Ajax call for api
-         function ajaxcall(type, url, dataJSON, callback) {
-             $.ajax({
-                 type: type,//"POST",
-                 url: url,//"/dashboard/balanceUse", //
-                 async: true,
-                 data: JSON.stringify(dataJSON),
-                 contentType: 'application/json; charset=utf-8',
-                 dataType: 'json',
-                 success: function (response, httpObj) {
-                     if (httpObj == 'success') {
-
-                         var html = "";
-                         // var jsonString = eval('(' + response + ')');
-                         if (callback && typeof (callback) === "function") {
-                             callback(response);
-                         }
-                     }
-                     else
-                         alert("Error !! Check input data.");
-                     $("#loding_Model").hide();//hide loading image
-                 },
-                 error: function (httpObj, textStatus) {
-                     $("#loding_Model").hide();
-                     alert("Not Valid Entry !!");
-                     console.log("error");
-                     console.log("ResponseText" + httpObj.responseText);
-                     if (httpObj.status == 401) {
-                         //window.location.replace("/Login.htm");//dashboad page
-                     }
-
-                     // alert("Some Error Occured !. Please try again later.");
-                 }
-             });
-         }
-
-         function onsuccess(resObj) {
-             var html = "";
-
-             try {
-                 if (resObj != null & resObj != "") {
-                     if ($('#userTypeList').val() == 1) { html = 'EnterPrise::' + resObj["totalCount"]; }
-                     else { html = 'Personal::' + resObj['totalCount']; }
-                 }
-             } catch (ex) { }
-             $('#myModal_2').modal('show');
-             //$("#model_msg_body").html(html);
-             //$('#model_msg').modal('show');
-         }
-
-    </script>
-
-
-
-
-
-
-
 </head>
 <body>
      <%--Navigation  Bar --%>
-     <form id="dashBoardForm" runat="server">
+     <form id="dashBoardForm" >
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -245,31 +180,43 @@
                     <div class="container-fluid">
                         <div class="navbar-header">
                              <!--DashBoard  Title-->
-                            <p class="sub-header">CPprofitSummary : </p> 
+                            <p class="sub-header">CPprofitSummary :</p> 
                         </div>
                     </div>
                 </div>
                <br/>
               
             </div>
-
-
-          
-
-
-
            <!-- Modal -->
           <div class="modal fade status_model_2" id="myModal_2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog" >
                 <div class="modal-content">
-                    <div class="modal-header" style="color:black"><span style="font-size:24px;color:black">Enterprise:</span> <span style=" padding-left:50px  ; padding-right:50px;  border:solid 1px;"><asp:Label id="labelEnt" style="width:50px;" Text="" runat="server"> </asp:label></span>
+                <div class="modal-header" style="color:black"><span style="font-size:24px;color:black">Enterprise:</span> <span style=" padding-left:50px  ; padding-right:50px;  border:solid 1px;"><asp:Label id="labelEnt" style="width:50px;" Text="" runat="server"> </asp:label></span>
                             </div>
-                    <div class="modal-header" style="color:black"><span style="font-size:24px;color:black">Personal: &nbsp;</span> <span style=" padding-left:50px  ; padding-right:50px;  border:solid 1px;"><asp:Label id="labelPer" style="width:50px;" Text="" runat="server"></asp:label></span>
-                            </div>
-                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                      </div>
-                    </div></div></div></div>
+                <div class="modal-header" style="color:black"><span style="font-size:24px;color:black">Personal: &nbsp;</span> <span style=" padding-left:50px  ; padding-right:50px;  border:solid 1px;"><asp:Label id="labelPer" style="width:50px;" Text="" runat="server"></asp:label></span>
+                         </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                </div></div></div>
+           
+         
+         <!--Message Model-->
+        <div class="modal fade" id="model_msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="headerLabelmodel_msg"></h4>
+                    </div>
+                    <div id="model_msg_body" class="modal-body form-group col-sm-10">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnClose" class="btn btn-default" style="float: right; width: 100px;" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
 
             <!-- Bootstrap core JavaScript
 	================================================== -->
