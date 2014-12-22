@@ -24,8 +24,8 @@ namespace CrebitAdminRestApi.Model
         public double CyberPlateAdminProfit = 0.0;
         //taken bal
         public double CpTakenBal = 0.0;
-        
-        public CP_serviceReturnType GetProfitCount(CP_Property cp_Property)
+
+        public CP_serviceReturnType ProfitCount(CP_Property cp_Property)
         {
 
             this._IsSuccess = true;
@@ -39,7 +39,7 @@ namespace CrebitAdminRestApi.Model
                 DataBase db = new DataBase();
                 DataSet ds = db.GetDataSet(this.SpName, param);
 
-                if (ds != null)
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                      
                     DataRowCollection drc = ds.Tables[0].Rows;
@@ -52,29 +52,52 @@ namespace CrebitAdminRestApi.Model
                         string PrevBal = ""+item["PrevBal"].ToString();
                         string AdminProfit = item["AdminProfit"].ToString();
                         string UserType = "" + item["UserType"].ToString();
-                        string RegDate = Convert.ToDateTime(item["RegDate"]).ToString("d MMM yyyy h:mm tt ");
+                        if (item["RegDate"] != null)
+                        {
+                            string RegDate=Convert.ToDateTime(item["RegDate"]).ToString("d MMM yyyy h:mm tt ");
+                        }
+                        //string RegDate = Convert.ToDateTime(item["RegDate"]).ToString("d MMM yyyy h:mm tt ");
                         string AvailBal = "" + item["AvailBal"].ToString();
                         string TakenBal = "" + item["TakenBal"].ToString();
                         string GivenBal = "" + item["GivenBal"].ToString();
-                     
                         totalProfit+=double.Parse(Profit);
                         totalAdminProfit += double.Parse(AdminProfit);
                         CpTakenBal += double.Parse(TakenBal);
-                        switch (OperatorId)
-                        {               
-                            case "40": 
+                        if (OperatorId == "40")
+                        {
                             MSEB_ElecProfit += float.Parse(Profit);
                             MSEB_ElecAdminProfit += double.Parse(AdminProfit);
-                            break;
-                            case "1100": 
-                            FundProfit += float.Parse(Profit); 
-                            FundAdminProfit +=double.Parse(AdminProfit);
-                            break;
-                            case "1300":
-                            MoneyTransferProfit += float.Parse(Profit); 
-                            MoneyTransferAdminProfit += double.Parse(AdminProfit);
-                            break;
                         }
+                        else if (OperatorId == "1100")
+                        {
+                            FundProfit += float.Parse(Profit);
+                            FundAdminProfit +=double.Parse(AdminProfit);
+                               
+                        }
+                        else if (OperatorId == "1300")
+                        {
+                            MoneyTransferProfit += float.Parse(Profit);
+                            MoneyTransferAdminProfit += double.Parse(AdminProfit);
+                        
+                        }
+                        
+                        
+                        //switch (OperatorId)
+                        //{               
+                        //    case "40": 
+                        //    MSEB_ElecProfit += float.Parse(Profit);
+                        //    MSEB_ElecAdminProfit += double.Parse(AdminProfit);
+                        //    break;
+                        //    case "1100": 
+                        //    FundProfit += float.Parse(Profit); 
+                        //    FundAdminProfit +=double.Parse(AdminProfit);
+                        //    break;
+                        //    case "1300":
+                        //    MoneyTransferProfit += float.Parse(Profit); 
+                        //    MoneyTransferAdminProfit += double.Parse(AdminProfit);
+                        //    break;
+
+                        //}
                     }
                     CyberPlateProfit = totalProfit - (MSEB_ElecProfit + FundProfit + MoneyTransferProfit);
                     CyberPlateAdminProfit = totalAdminProfit - (MSEB_ElecAdminProfit + FundAdminProfit + MoneyTransferAdminProfit);

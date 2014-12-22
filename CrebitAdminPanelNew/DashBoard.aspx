@@ -143,11 +143,11 @@
          
 
         <%--Selction Controls --%>
-        <div class="input-group" style="width: 90%; padding-left: 10%; padding-right: 5%;">
+        <div class="input-group" style="width: 80%;  padding-left:10%;">
             <div class="input-group-addon">From Date</div>
-            <input id="fromDate" type="text" style="height: 50px;" placeholder="Select from date" runat="server" />
+            <input id="fromDate" type="text" style="height: 50px;" placeholder="Select from date" runat="server"  required/>
             <div class="input-group-addon">To Date </div>
-            <input type="text" id="toDate" style="height: 50px;" placeholder="Select to date" runat="server" />
+            <input type="text" id="toDate" style="height: 50px;" placeholder="Select to date" runat="server" required/>
             <div class="input-group-addon ">OperatorType </div>
             <select id="operatorType" runat="Server" style="height: 50px;">
                 <option value="-1">---Select---	</option>
@@ -215,6 +215,8 @@
             <div class="input-group-addon">
                 <asp:Button Text="Matcher" class="form-control btn-primary" runat="server" ID="bqtnFilter" OnClick="btnMatcher_Click" /></div>
 
+            <div class="input-group-addon">
+                <asp:Button Text="ExportToExcel" class="form-control btn-primary" runat="server" ID="btnExport" OnClick="btnExport_Click" /></div>
 
         </div>
         <%--Label Control TO Show Exception--%>

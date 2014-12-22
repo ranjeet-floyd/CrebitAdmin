@@ -21,4 +21,35 @@ namespace CrebitAdminRestApi.Model
         public double CpTakenBal { get; set; }
 
     }
+    public class DAS_Property
+    {
+        //[JsonProperty("usertype")]
+        public int UserType { get; set; }
+        public string Date { get; set; }
+
+    }
+
+    public class DAS_serviceReturnType
+    {
+
+        //[JsonProperty("usertype")]
+        public string totalCount { get; set; }
+    }
+
+    public class UserSuccessTranReturnType
+    {
+
+        //[JsonProperty("usertype")]
+        public string UserSuccess_serviceReturnType { get; set; }
+    }
+
+
+    public class UserSuccess_Tran
+    {
+        //[JsonProperty("usertype")]
+        public string Date { get; set; }
+        public string UserName { get; set; }
+    }
+    
+
 }

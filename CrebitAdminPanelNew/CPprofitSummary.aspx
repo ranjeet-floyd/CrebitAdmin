@@ -24,11 +24,14 @@
       <script src="js/jquery.js"></script>
     <script src="js/jquery-ui.custom.js"></script>
     <script src="js/modernizr.js"></script>
-
-  <%-- <script src="Scripts/cookies.js" type="text/javascript"></script>--%>
+    <script src="js/cookies.js"></script>
    
      <script type="text/javascript">
-        $(document).ready(function () {
+         $(document).ready(function () {
+             $("#fromDate").datepicker();
+             $("#toDate").datepicker();
+             $("#utdate").datepicker();
+             $("#fromDate").val('');
             $("#utdate").datepicker();
         });
 
@@ -42,19 +45,27 @@
              dataJSON.UserType = $("#userTypeList").val(); dataJSON.Date = $("#utdate").val(); dataJSON.UserName = $("#UserName").val();
              AjaxCall("POST", "/api/UserProfit", dataJSON, Onsuccess);//call api
              return false;
-        }
+         }
+         function UserSuccessTran()
+         {
+             var dataJSON = {};
+             dataJSON.Date = $("#utdate").val(); dataJSON.UserName = $("#UserName").val();
+             AjaxCall("POST", "/api/UserSuccessTran", dataJSON, OnSuccessTran);//call api
+             return false;
+         }
         
          //Ajax call for api
          function AjaxCall(type, url, dataJSON, callback) {
              $.ajax({
                  type: type,//"POST",
-                 url: url,//"/api/UserProfit", //
+                 url: url,//"/dashboard/balanceUse", //
                  async: true,
                  data: JSON.stringify(dataJSON),
                  contentType: 'application/json; charset=utf-8',
                  dataType: 'json',
                  success: function (response, httpObj) {
                      if (httpObj == 'success') {
+
                          var html = "";
                          // var jsonString = eval('(' + response + ')');
                          if (callback && typeof (callback) === "function") {
@@ -80,29 +91,49 @@
              });
          }
 
+         function OnSuccessTran(resObj) {
+             try {
+
+             } catch (ex) { }
+         }
+
+
+
+
         function Onsuccess(resObj) {
             try {
-                var html="";
+                var html = "";
                      if (resObj != null & resObj != "") {
-                          
-                         //if ($('#userTypeList').val() == 1) 
-                         html = "CyberPlateProfit ::" + resObj['CyberPlateProfit'];
-                         html += "CyberPlateAdminProfit::" + resObj['CyberPlateAdminProfit'];
-                         html += "TakenBal ::" + resObj['CpTakenBal'];
+                         if ($("#userTypeList").val() == 0)
+                         {
+                             html = "CyberPlateAdminProfit::" + resObj['CyberPlateAdminProfit'];
+                         }
+                         else if ($("#userTypeList").val() == 1)
+                         {
+                             html = "CyberPlateEnetrPriseProfit::" + resObj['CyberPlateProfit'];
+                             html += "TakenBal ::" + resObj['CpTakenBal'];
+                         }
+                         else if ($("#userTypeList").val() == 2)
+                         {
+                             html = "CyberPlatePersonalUserProfit::" + resObj['CyberPlateProfit'];
+                             html += "TakenBal ::" + resObj['CpTakenBal'];
+                         }
+                         
+                         //html += "CyberPlateProfit ::" + resObj['CyberPlateProfit']; 
+                         //html += "CyberPlateAdminProfit::" + resObj['CyberPlateAdminProfit'];
+                         //html = "TakenBal ::" + resObj['CpTakenBal'];
                 }
             } catch (ex) { }
             $("#model_msg_body").html(html);
             $('#model_msg').modal('show');
 
         }
-
-
         </script>
  
 </head>
 <body>
      <%--Navigation  Bar --%>
-     <form id="dashBoardForm" >
+     <form id="dashBoardForm"  runat="server">
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -135,45 +166,39 @@
             </div>
         </div>
          <br/>
-     
+     </form>
       
+    <br/>
          <%-- User Profit Count Control--%>
-            <div class="dashboard-middle">
-            <div class="navbar-collapse collapse subData">
-               
-                <ul class="nav navbar-nav navbar-right margin5 " style="border-style: solid;border-width: 1px; border-color:#ededf1;padding:10px; padding-left:20px;padding-right:20px ">
-                  <li>
-                        <select class=" form-control" id="userTypeList"  runat="server" >
+       <div class="input-group" style="width: 60%; padding-left: 50%; padding-right: 5%;">     
+                 <div class="input-group-addon ">UserType </div>
+              
+             <select  style="height: 50px; width:100px" id="userTypeList" >
                             <option value="">---Select---</option>
                             <option value="1">Enterprise</option>
                             <option value="2">Personal</option>
                         </select>
-                    </li>
                   
-                    <li>
-                        <input id="UserName"  class=" form-control" style="width:120px"  placeholder="UserMobile" runat="server">
-                    </li>
-                      <li>
+                 <div class="input-group-addon">             
+                        <input id="UserName"  class=" form-control" style="width:120px"  placeholder="UserMobile" >
+                    </div>
+                      <div class="input-group-addon">             
                        <%--<div class="input-group-addon"  >Date</div>--%>
-                      <input id="utdate" type="text" class=" form-control" style="width:100px"  placeholder="date" runat="server">
-                    </li>
+                      <input id="utdate" type="text" class=" form-control" style="width:100px"  placeholder="date" >
+                    </div>
                          
-                    <li>
-                      <%--<input id="btnUserCount" type="button" class="form-control btn-primary"   value="UserCount" onclick = "ProfitCount()" runat="server" />--%>
-                        <%--<asp:Button Text="UserCount" class="form-control btn-primary" runat="server" ID="userCount" />--%>
+                    <div class="input-group-addon">             
                       <button id="btnProfitCount" class="form-control btn-primary" value="UserCount" onclick="ProfitCount()">ProfitCount</button>
-                     </li>
-                </ul>
-</div>
-</div>
+                     </div>
+                   <div class="input-group-addon">             
+                      <button id="btnUserSuccessTran" class="form-control btn-primary" value="UserCount" onclick="UserSuccessTran()">SuccessTran</button>
+                     </div>
 
-         
-      
-      
-         <%--Label Control TO Show Exception--%>
-         <div><asp:Label Text="" class="form-control"  ID="ExcelTypemsg" style="background-color:#fff;border:0px; color:red; width:100%; padding-left: 68%;" runat="server"/></div>
-          <br/><br/>
-       <%--Table to Show the UnMatch TransId--%>
+    </div>
+    
+    <br/><br/>
+
+      <%--Table to Show the UnMatch TransId--%>
             <div id="DashBoard-details">
                 <p id="dashBoard" class="space"></p>
                 <div class="navbar navbar-inverse " role="navigation">
@@ -201,7 +226,7 @@
                 </div></div></div>
            
          
-         <!--Message Model-->
+          <!--Message Model-->
         <div class="modal fade" id="model_msg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -228,6 +253,6 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug 
    <!-- <script src="ie10-viewport-bug-workaround.js"></script> -->
          
-    </form>
+    
 </body>
 </html>

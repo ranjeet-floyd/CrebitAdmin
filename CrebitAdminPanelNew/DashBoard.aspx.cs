@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Text;
 using System.Data.OleDb;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
 using db;
 using CrebitAdminPanelNew.Model;
-using OfficeOpenXml;
 using System.Windows.Forms;
-using Excel = Microsoft.Office.Interop.Excel; 
+using Excel = Microsoft.Office.Interop.Excel;
+using ClosedXML.Excel; 
 namespace CrebitAdminPanelNew
 {
     public partial class DashBoard : System.Web.UI.Page
@@ -218,15 +214,104 @@ namespace CrebitAdminPanelNew
         }
 
 
-      
-        
+      //Export Success and Failed Transaction To Excel
 
+        //protected void btnExport_Click(object sender, EventArgs e)
+        //{
+        //    string ConnectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+        //    SqlConnection thisConnection = new SqlConnection(ConnectionString);
+        //    SqlCommand thisCommand = thisConnection.CreateCommand();
+        //    thisCommand.CommandType = CommandType.StoredProcedure;
+        //    thisCommand.CommandText = "CB_ADMIN_ExportTo_Excel";
+        //    thisCommand.Parameters.AddWithValue("@FromDate", fromDate.Value);
+        //    thisCommand.Parameters.AddWithValue("@ToDate", toDate.Value);
+        //    DataBase db = new DataBase();
+        //    DataSet ds = db.SelectAdaptQry(thisCommand);
+
+
+        //    if (ds != null && ds.Tables.Count > 0)
+        //    {
+
+        //    ////////////////////////////////////////
+        //       // System.Data.DataTable dtMainSQLData = new System.Data.DataTable();
+        //        //da.Fill(dtMainSQLData);
+        //        DataColumnCollection dcCollection = ds.Tables[0].Columns;
+        //        // Export Data into EXCEL Sheet
+        //        Microsoft.Office.Interop.Excel._Application ExcelApp = new Excel.Application();
+        //        ExcelApp.Application.Workbooks.Add(Type.Missing);
+
+                   
+
+        //            // ExcelApp.Cells.CopyFromRecordset(objRS);
+        //            for (int i = 1; i < ds.Tables[0].Rows.Count + 1; i++)
+        //            {
+        //                for (int j = 1; j < ds.Tables[0].Columns.Count + 1; j++)
+        //                {
+        //                    if (i == 1)
+
+        //                        ExcelApp.Cells[i, j] = dcCollection[j - 1].ToString();
+
+        //                    else
+
+        //                        ExcelApp.Cells[i, j] = ds.Tables[0].Rows[i - 1][j - 1].ToString();
+
+
+
+        //                }
+        //            }
+        //            ExcelApp.ActiveWorkbook.SaveCopyAs("E:\\1.xlsx");
+        //            ExcelApp.ActiveWorkbook.Saved = true;
+        //            ExcelApp.Quit();
+        //            byte[] Content = File.ReadAllBytes("E:\\1.xlsx");
+        //            Response.ContentType = ".xlsx";
+        //            Response.AddHeader("content-disposition", "attachment; filename=" + 1 + ".xlsx");
+        //            Response.BufferOutput = true;;
+        //            Response.OutputStream.Write(Content, 0, Content.Length);
+        //            Response.End();
+
+
+        //           // MessageBox.Show("Data Exported Successfully");
+                   
+        //        }
+        //}
+
+        //Export Success and Failed Transaction To Excel
+        protected void btnExport_Click(object sender, EventArgs e)
+        {
+            string ConnectionString = ConfigurationManager.ConnectionStrings["connString"].ConnectionString;
+            SqlConnection thisConnection = new SqlConnection(ConnectionString);
+            SqlCommand thisCommand = thisConnection.CreateCommand();
+            thisCommand.CommandType = CommandType.StoredProcedure;
+            thisCommand.CommandText = "CB_ADMIN_ExportTo_Excel";
+            thisCommand.Parameters.AddWithValue("@FromDate", fromDate.Value);
+            thisCommand.Parameters.AddWithValue("@ToDate", toDate.Value);
+            DataBase db = new DataBase();
+            DataSet ds = db.SelectAdaptQry(thisCommand);
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        thisCommand.Connection = thisConnection;
+                        sda.SelectCommand = thisCommand;
+                        using (DataTable dt = new DataTable())
+                        {
+                            sda.Fill(dt);
+                            using (XLWorkbook wb = new XLWorkbook())
+                            {
+                                wb.Worksheets.Add(dt, "Customers");
+
+                                Response.Clear();
+                                Response.Buffer = true;
+                                Response.Charset = "";
+                                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                                Response.AddHeader("content-disposition", "attachment;filename=SqlExport.xlsx");
+                                using (MemoryStream MyMemoryStream = new MemoryStream())
+                                {
+                                    wb.SaveAs(MyMemoryStream);
+                                    MyMemoryStream.WriteTo(Response.OutputStream);
+                                    Response.Flush();
+                                    Response.End();
+                                }} } } }
     }
-}
-
-
-
-
+    }
 
 
 
