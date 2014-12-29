@@ -1,0 +1,36 @@
+USE [Blue014]
+GO
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_UserOpenCloseBal_Script]    Script Date: 12/29/2014 09:46:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_UserOpenCloseBal_Script_Insert]
+--SELECT  DATEPART(MI, GETDATE()),DATEPART(HOUR, GETDATE())
+
+AS
+BEGIN
+	DECLARE @TODAYDATE DATE
+	DECLARE @CURRDATETIME DATETIME
+	
+	SET @CURRDATETIME = CAST(SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30') AS DATETIME)
+	SET @TODAYDATE = CONVERT(VARCHAR, CAST(SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30') AS DATETIME), 23) 
+	SET NOCOUNT ON;
+	
+	IF @CURRDATETIME > '2014-12-27 00:00:00.000' AND  @CURRDATETIME < '2014-12-27 00:01:00.000' 
+	 BEGIN 
+	
+		INSERT INTO Cb_UserOpenCloseBal
+				([Date]
+			   ,[UserId]
+			   ,[OpeningBal]
+			   ,[TakenBal] 
+			   ,[GivenBal] 
+			   ,[ClosingBal])
+		 SELECT @TODAYDATE, CU.Id  ,
+			 ISNULL(CU.AvailBal,0) ,CU.TakenBal, CU.GivenBal, 0  FROM Cb_User AS CU WITH(NOLOCK)WHERE IsActive = 1
+	    END 
+   
+END
