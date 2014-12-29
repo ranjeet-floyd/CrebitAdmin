@@ -1,0 +1,46 @@
+USE [Blue014]
+GO
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_UserOpenCloseBal_Script_function]    Script Date: 12/29/2014 11:26:14 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_UserOpenCloseBal_Script_function]
+@UserName varchar(20) ,
+@Date datetime,
+@UserType smallint
+AS
+BEGIN
+	DECLARE @TODAYDATE DATE
+	SET @TODAYDATE = CONVERT(VARCHAR, CAST(SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30') AS DATETIME), 23) 
+	SET NOCOUNT ON;
+if ISNULL(@Date,0) <> 0
+	BEGIN
+	select ISNULL(COCB.OpeningBal,0) AS OpeningBal ,ISNULL(COCB.ClosingBal,0) AS ClosingBal
+	FROM Cb_UserOpenCloseBal AS COCB WITH(NOLOCK) 
+    INNER JOIN  Cb_User AS CU WITH(NOLOCK) ON CU.Id=COCB.UserId
+        WHERE  CU.UserName=ISNULL(@UserName,CU.UserName)	
+		AND  CU.UserType = ISNULL(@UserType, CU.UserType) 
+		AND COCB.Date between(@Date) and ((DATEADD(DAY,1, @Date))) 
+	END 
+	
+	ELSE
+	BEGIN
+	select ISNULL(COCB.OpeningBal,0) AS OpeningBal ,ISNULL(COCB.ClosingBal,0) AS ClosingBal
+	FROM Cb_UserOpenCloseBal AS COCB WITH(NOLOCK) 
+    INNER JOIN  Cb_User AS CU WITH(NOLOCK) ON CU.Id=COCB.UserId
+        WHERE  CU.UserName=ISNULL(@UserName,CU.UserName)	
+		AND  CU.UserType = ISNULL(@UserType, CU.UserType) 
+	AND COCB.Date=@TODAYDATE
+	END
+    
+END
+
+    
+	
+
