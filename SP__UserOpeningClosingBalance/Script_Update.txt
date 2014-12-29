@@ -1,0 +1,32 @@
+
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_UserOpenCloseBal_Script_Update]
+	
+AS
+BEGIN
+	
+	 DECLARE @TODAYDATE DATE
+	 DECLARE @CURRDATETIME DATETIME
+	
+	SET @CURRDATETIME = CAST(SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30') AS DATETIME)
+	SET @TODAYDATE = CONVERT(VARCHAR, CAST(SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30') AS DATETIME), 23) 
+	SET NOCOUNT ON;
+    IF @CURRDATETIME > '2014-12-27 23:59:00.000' AND  @CURRDATETIME < '2014-12-27 24:00:00.000' 
+    BEGIN  
+		UPDATE [dbo].[Cb_UserOpenCloseBal]
+          SET COCB.ClosingBal=ISNULL(CU.AvailBal,0)
+          FROM  Cb_UserOpenCloseBal AS COCB WITH(NOLOCK)
+           INNER JOIN     Cb_User AS CU WITH(NOLOCK) ON CU.Id=COCB.UserId 
+		  WHERE COCB.Date=@TODAYDATE AND COCB.UserId=CU.Id  
+		END 
+END
+GO
