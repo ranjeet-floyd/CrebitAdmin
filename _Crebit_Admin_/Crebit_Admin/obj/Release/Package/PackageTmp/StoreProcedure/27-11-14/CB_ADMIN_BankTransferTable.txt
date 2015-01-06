@@ -1,0 +1,113 @@
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+--------OLD SP---------------------------------------------
+----------------------------------------------------------------------------------------------------------
+
+USE [Blue014]
+GO
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_BankTransferTable]    Script Date: 11/27/2014 18:28:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_BankTransferTable]
+@Type INT,
+@Value VARCHAR(20)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	SELECT CBT.Id AS Id, CB.UserName AS UserName, CBT.BankName AS BankName, CBT.Account AS Account, CBT.IFSC AS IFSC, CBT.Amount AS Amount
+	,CBT.TransactionId AS TransactionId , CBT.BAnkTransId AS BankTransId,CBT.Date AS RequestDate, CBT.Comment AS Comment,CBT.Status AS StatusId , CBT.CusMobile as CusMobile
+	FROM cb_BankTransferRequest AS CBT WITH(NOLOCK)
+	left JOIN Cb_User AS CB WITH(NOLOCK) ON CB.Id = CBT.UserId
+	LEFT JOIN CB_Status AS CS WITH(NOLOCK) ON CBT.Status = CS.Id
+	
+--WHERE ISNULL(CB.Id,0) = CASE WHEN  @Type = 1 THEN @Value ELSE ISNULL(CB.Id,0) END --for testing purpose
+WHERE ISNULL(CB.UserName,0) = CASE WHEN  @Type = 1 THEN @Value ELSE ISNULL(CB.UserName,0) END
+		AND   CBT.IFSC = CASE WHEN  @Type = 2 THEN @Value ELSE CBT.IFSC END 
+		AND CBT.Account = CASE WHEN @Type = 3 THEN @Value ELSE CBT.Account END
+		
+--AND  CBT.Date =  CASE WHEN @Type =4 THEN @Value ELSE CBT.Date END
+AND  CBT.Date BETWEEN CASE WHEN (@Type=4) THEN  CAST(@Value AS DATE) 
+	 ELSE  CBT.Date END
+	AND CASE WHEN (@Type=4) THEN  DATEADD(DAY,1,CAST(@Value AS DATE))
+	ELSE  CBT.Date END
+		AND  ISNULL(CBT.BAnkTransId,0) = CASE WHEN @Type =5 THEN @Value ELSE ISNULL(CBT.BAnkTransId,0) END
+		AND CBT.TransactionId  =  CASE WHEN @Type = 6 THEN @Value ELSE CBT.TransactionId END
+		AND CBT.Status = CASE WHEN @Type =7  THEN @Value ELSE CBT.Status END
+		AND CBT.Date BETWEEN CASE WHEN (@Type = 0 ) THEN DATEADD(DAY,0, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')))
+		ELSE CBT.Date END
+		AND CASE WHEN (@Type= 0 ) THEN DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) ELSE CBT.Date END
+		ORDER BY CBT.Date DESC 
+	
+END
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------
+--------NEW SP---------------------------------------------
+----------------------------------------------------------------------------------------------------------
+
+USE [Blue014]
+GO
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_BankTransferTable]    Script Date: 11/27/2014 18:28:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_BankTransferTable]
+@Type INT,
+@Value VARCHAR(20)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	
+	SELECT CBT.Id AS Id, CB.UserName AS UserName, CBT.BankName AS BankName, CBT.Account AS Account, CBT.IFSC AS IFSC, CBT.Amount AS Amount
+	,CBT.TransactionId AS TransactionId , CBT.BAnkTransId AS BankTransId,CBT.Date AS RequestDate, CBT.Comment AS Comment,CBT.Status AS StatusId , CBT.CusMobile as CusMobile, CBT.CusName as CusName
+	FROM cb_BankTransferRequest AS CBT WITH(NOLOCK)
+	left JOIN Cb_User AS CB WITH(NOLOCK) ON CB.Id = CBT.UserId
+	LEFT JOIN CB_Status AS CS WITH(NOLOCK) ON CBT.Status = CS.Id
+	
+--WHERE ISNULL(CB.Id,0) = CASE WHEN  @Type = 1 THEN @Value ELSE ISNULL(CB.Id,0) END --for testing purpose
+WHERE ISNULL(CB.UserName,0) = CASE WHEN  @Type = 1 THEN @Value ELSE ISNULL(CB.UserName,0) END
+		AND   CBT.IFSC = CASE WHEN  @Type = 2 THEN @Value ELSE CBT.IFSC END 
+		AND CBT.Account = CASE WHEN @Type = 3 THEN @Value ELSE CBT.Account END
+		
+--AND  CBT.Date =  CASE WHEN @Type =4 THEN @Value ELSE CBT.Date END
+AND  CBT.Date BETWEEN CASE WHEN (@Type=4) THEN  CAST(@Value AS DATE) 
+	 ELSE  CBT.Date END
+	AND CASE WHEN (@Type=4) THEN  DATEADD(DAY,1,CAST(@Value AS DATE))
+	ELSE  CBT.Date END
+		AND  ISNULL(CBT.BAnkTransId,0) = CASE WHEN @Type =5 THEN @Value ELSE ISNULL(CBT.BAnkTransId,0) END
+		AND CBT.TransactionId  =  CASE WHEN @Type = 6 THEN @Value ELSE CBT.TransactionId END
+		AND CBT.Status = CASE WHEN @Type =7  THEN @Value ELSE CBT.Status END
+		AND CBT.Date BETWEEN CASE WHEN (@Type = 0 ) THEN DATEADD(DAY,0, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')))
+		ELSE CBT.Date END
+		AND CASE WHEN (@Type= 0 ) THEN DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) ELSE CBT.Date END
+		ORDER BY CBT.Date DESC 
+	
+END
+
+
+
+

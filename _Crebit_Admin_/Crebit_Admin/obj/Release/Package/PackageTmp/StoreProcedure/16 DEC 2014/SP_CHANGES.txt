@@ -1,0 +1,141 @@
+Date:: 16 DEC 2014
+Comment: Changes Made In "CB_ADMIN_REFUND_NEW_REQUEST" Store Procedure
+
+OLD SP::
+-----------
+-----------
+USE [Blue014]
+GO
+
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_REFUND_NEW_REQUEST]    Script Date: 12/15/2014 11:04:28 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_REFUND_NEW_REQUEST]
+@Type INT,
+@Value VARCHAR(20)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT   CR.Id AS Id, CU.UserName AS UserName, CP.OperaterName AS OperaterName, OPT.Type AS ServiceType,
+	CT.CreditAccountNo AS CreditAccountNo,CR.RequestDate AS ReqDate, CT.Id AS TransactionId, CR.RefundTransId AS RefundTransId,
+	CR.comment AS Comment,CR.Status AS Status, CT.Amount As Amount
+	 FROM CB_RefundRequest AS CR WITH(NOLOCK)
+	LEFT JOIN Cb_Transaction AS CT WITH(NOLOCK) ON CAST(CR.TransactionId AS BIGINT) = CT.Id
+	LEFT JOIN Cb_User AS CU WITH(NOLOCK) ON CU.Id = CT.UserId
+	LEFT JOIN Cb_Operator AS CP WITH(NOLOCK) ON CP.OperaterId = CT.OperaterId
+	LEFT JOIN CB_OperatorType AS OPT WITH(NOLOCK) ON OPT.Id = CP.ServiceType
+	 WHERE 
+	 ISNULL(CU.UserName,0)= CASE WHEN @Type =1 THEN CAST(@Value AS BIGINT) ELSE ISNULL(CU.UserName,0)END 
+
+		  AND CP.OperaterName = CASE WHEN  @Type = 2 THEN @Value ELSE CP.OperaterName END 
+		    AND OPT.Type = CASE WHEN  @Type = 3 THEN @Value ELSE OPT.Type END 
+		AND  CT.CreditAccountNo =  CASE WHEN @Type =4 THEN @Value ELSE CT.CreditAccountNo END
+        AND ISNULL (CR.RequestDate,0) BETWEEN CASE WHEN (@Type=5) THEN  CAST(@Value AS DATE) 
+					 ELSE CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')) END
+					 AND CASE WHEN (@Type=5) THEN  DATEADD(DAY,1,CAST(@Value AS DATE))
+					 ELSE  DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) END
+	    AND CT.Id= CAST(CASE WHEN @Type =6  THEN @Value ELSE CT.Id END AS BIGINT)
+		AND  ISNULL(CR.RefundTransId,0)= CASE WHEN @Type =7 THEN CAST(@Value AS BIGINT) ELSE ISNULL(CR.RefundTransId,0)   END AND
+		
+		 CR.Status= CASE WHEN @Type =8  THEN @Value ELSE CR.Status END
+		 
+		 --todays data only| by default
+		AND CR.RequestDate BETWEEN CASE WHEN @Type=0
+		THEN DATEADD(DAY,0, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) 
+		ELSE CR.RequestDate END
+		AND CASE WHEN @Type=0  THEN DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')))  
+		ELSE CR.RequestDate END
+		 	
+		 ORder by CR.Id desc	
+		
+END
+
+
+
+GO
+
+--------------------------------------------------------------------------------------------------------
+
+NEW SP::
+-------
+-------
+USE [Blue014]
+GO
+/****** Object:  StoredProcedure [dbo].[CB_ADMIN_REFUND_NEW_REQUEST]    Script Date: 12/16/2014 11:51:09 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+
+
+
+
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[CB_ADMIN_REFUND_NEW_REQUEST]
+@Type INT,
+@Value VARCHAR(20)
+AS
+BEGIN
+	SET NOCOUNT ON;
+	SELECT   CR.Id AS Id, CU.UserName AS UserName, CP.OperaterName AS OperaterName, OPT.Type AS ServiceType,
+	CT.CreditAccountNo AS CreditAccountNo,CR.RequestDate AS ReqDate, CT.Id AS TransactionId, CR.RefundTransId AS RefundTransId,
+	CR.comment AS Comment,CR.Status AS Status, CT.Amount As Amount
+	 FROM CB_RefundRequest AS CR WITH(NOLOCK)
+	LEFT JOIN Cb_Transaction AS CT WITH(NOLOCK) ON CAST(CR.TransactionId AS BIGINT) = CT.Id
+	LEFT JOIN Cb_User AS CU WITH(NOLOCK) ON CU.Id = CT.UserId
+	LEFT JOIN Cb_Operator AS CP WITH(NOLOCK) ON CP.OperaterId = CT.OperaterId
+	LEFT JOIN CB_OperatorType AS OPT WITH(NOLOCK) ON OPT.Id = CP.ServiceType
+	 WHERE 
+	 ISNULL(CU.UserName,0)= CASE WHEN @Type =1 THEN CAST(@Value AS BIGINT) ELSE ISNULL(CU.UserName,0)END 
+
+		  AND CP.OperaterName = CASE WHEN  @Type = 2 THEN @Value ELSE CP.OperaterName END 
+		    AND OPT.Type = CASE WHEN  @Type = 3 THEN @Value ELSE OPT.Type END 
+		AND  CT.CreditAccountNo =  CASE WHEN @Type =4 THEN @Value ELSE CT.CreditAccountNo END
+      
+      --  AND ISNULL (CR.RequestDate,0) BETWEEN CASE WHEN (@Type=5) THEN  CAST(@Value AS DATE) 
+					 --ELSE CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')) END
+					 --AND CASE WHEN (@Type=5) THEN  DATEADD(DAY,1,CAST(@Value AS DATE))
+					 --ELSE  DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) END
+	   
+	   
+	    AND ISNULL (CR.RequestDate,0) BETWEEN CASE WHEN (@Type=5) THEN  CAST(@Value AS DATE) 
+					 ELSE ISNULL (CR.RequestDate,0) END
+					 AND CASE WHEN (@Type=5) THEN  DATEADD(DAY,1,CAST(@Value AS DATE))
+					 ELSE  ISNULL (CR.RequestDate,0) END
+					 
+					 
+	    AND CT.Id= CAST(CASE WHEN @Type =6  THEN @Value ELSE CT.Id END AS BIGINT)
+		AND  ISNULL(CR.RefundTransId,0)= CASE WHEN @Type =7 THEN CAST(@Value AS BIGINT) ELSE ISNULL(CR.RefundTransId,0)   END AND
+		
+		 CR.Status= CASE WHEN @Type =8  THEN @Value ELSE CR.Status END
+		 
+		 --todays data only| by default
+		AND CR.RequestDate BETWEEN CASE WHEN @Type=0
+		THEN DATEADD(DAY,0, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30'))) 
+		ELSE CR.RequestDate END
+		AND CASE WHEN @Type=0  THEN DATEADD(DAY,1, CONVERT(DATE,SWITCHOFFSET(SYSDATETIMEOFFSET(), '+05:30')))  
+		ELSE CR.RequestDate END
+		 	
+		 ORder by CR.Id desc	
+		
+END
+
+
+
+
+
+

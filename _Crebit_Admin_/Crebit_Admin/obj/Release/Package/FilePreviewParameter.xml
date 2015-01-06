@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="adminCrebit" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\DHS\\documents\\visual\ studio\ 2012\\Projects\\Crebit_Admin\\Crebit_Admin\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\DHS\\documents\\visual\ studio\ 2012\\Projects\\Crebit_Admin\\Crebit_Admin\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="connString-Web.config Connection String" description="connString Connection String used in web.config by the application to access the database." value="Data Source=Blue014.db.9223203.hostedresource.com;database=Blue014;uid=Blue014;password=Bitblue#2015" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\DHS\\documents\\visual\ studio\ 2012\\Projects\\Crebit_Admin\\Crebit_Admin\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='connString']/@connectionString" />
+  </parameter>
+</parameters>
